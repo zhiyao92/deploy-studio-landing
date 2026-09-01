@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deploy Studio — Ship releases from your phone</title>
+<meta name="description" content="An App Store Connect client that can actually submit a release: pick a build, write release notes, answer export compliance, and send it for review. Your key never leaves the device.">
+<meta property="og:title" content="Deploy Studio — Ship releases from your phone">
+<meta property="og:description" content="The App Store Connect app can't submit a release. This one can — from an iPhone. No server, and your key stays in the Keychain.">
+<meta property="og:image" content="https://zhiyao92.github.io/deploy-studio-landing/assets/app-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zhiyao92.github.io/deploy-studio-landing/">
+<link rel="canonical" href="https://zhiyao92.github.io/deploy-studio-landing/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/app-icon.png">
+<link rel="apple-touch-icon" href="assets/app-icon.png">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue: #1D63C8;
+    --blue-deep: #123C7D;
+    --blue-bg: #E9F1FD;
+    --cyan: #22A2C9;
+    --teal: #16A085;
+    --teal-bg: #E6F6F1;
+    --bg: #FAFBFF;
+    --surface: #FFFFFF;
+    --surface2: #F2F5FB;
+    --border: #E1E7F3;
+    --text: #101728;
+    --muted: #5C6580;
+    --soft: #98A1BA;
+    --shadow: 18, 60, 125;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --blue: #6FA3F2; --blue-deep: #0B1C3A; --blue-bg: #16233D;
+      --cyan: #4FC3E8; --teal: #3FD0AE; --teal-bg: #142E2A;
+      --bg: #0B1020; --surface: #141B2E; --surface2: #111827;
+      --border: #253048; --text: #EAEEF8; --muted: #98A3BF; --soft: #6C7796;
+      --shadow: 0, 0, 0;
+    }
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  img { max-width: 100%; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo img { width: 32px; height: 32px; border-radius: 9px; }
+  .nav-logo span { font-weight: 800; font-size: 1.05rem; color: var(--text); letter-spacing: -0.4px; }
+  .nav-cta {
+    background: var(--text); color: var(--bg); font-weight: 700; font-size: .85rem;
+    padding: 9px 20px; border-radius: 100px; text-decoration: none;
+    transition: opacity .2s, transform .2s;
+  }
+  .nav-cta:hover { opacity: .85; transform: scale(1.03); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 150px 24px 72px; text-align: center;
+    background:
+      radial-gradient(900px 420px at 50% -10%, color-mix(in srgb, var(--blue) 18%, transparent), transparent 70%),
+      linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+  }
+  .hero-icon {
+    width: 96px; height: 96px; border-radius: 24px; margin: 0 auto 26px; display: block;
+    box-shadow: 0 18px 40px rgba(var(--shadow), .28);
+  }
+  .hero h1 {
+    font-size: clamp(2.3rem, 6vw, 3.9rem); line-height: 1.08;
+    letter-spacing: -2px; font-weight: 800; max-width: 16ch; margin: 0 auto 20px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(120deg, var(--blue), var(--cyan));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p.sub {
+    font-size: clamp(1.02rem, 2.2vw, 1.2rem); color: var(--muted);
+    max-width: 56ch; margin: 0 auto 34px;
+  }
+  .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: linear-gradient(120deg, var(--blue), var(--cyan));
+    color: #fff; font-weight: 700; font-size: 1rem;
+    padding: 15px 30px; border-radius: 100px; text-decoration: none;
+    box-shadow: 0 10px 28px color-mix(in srgb, var(--blue) 34%, transparent);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 34px color-mix(in srgb, var(--blue) 44%, transparent); }
+  .btn-ghost {
+    display: inline-flex; align-items: center; color: var(--text); font-weight: 600;
+    font-size: 1rem; padding: 15px 26px; border-radius: 100px; text-decoration: none;
+    border: 1px solid var(--border); background: var(--surface);
+    transition: border-color .2s;
+  }
+  .btn-ghost:hover { border-color: var(--soft); }
+  .soon-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--blue-bg); color: var(--blue); font-weight: 700; font-size: 1rem;
+    padding: 15px 30px; border-radius: 100px;
+    border: 1px dashed color-mix(in srgb, var(--blue) 45%, transparent);
+  }
+  .soon-pill .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--blue);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(.8); } }
+  @media (prefers-reduced-motion: reduce) { .soon-pill .dot { animation: none; } }
+  .hero-note { margin-top: 18px; font-size: .86rem; color: var(--soft); }
+
+  /* ── STATS ── */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    border-radius: 18px; overflow: hidden; margin: 56px auto 0;
+  }
+  .stat { background: var(--surface); padding: 24px 16px; text-align: center; }
+  .stat .n {
+    font-size: 1.7rem; font-weight: 800; letter-spacing: -1px;
+    background: linear-gradient(120deg, var(--blue), var(--teal));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .stat .l { font-size: .82rem; color: var(--muted); }
+
+  /* ── SECTIONS ── */
+  section { padding: 84px 0; }
+  .eyebrow {
+    text-transform: uppercase; letter-spacing: 2px; font-size: .74rem;
+    font-weight: 800; color: var(--blue); margin-bottom: 12px;
+  }
+  h2 { font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.15; letter-spacing: -1.2px; font-weight: 800; margin-bottom: 14px; }
+  .lede { color: var(--muted); max-width: 58ch; font-size: 1.04rem; }
+  .section-head { margin-bottom: 44px; }
+  .section-head.center { text-align: center; }
+  .section-head.center .lede { margin: 0 auto; }
+
+  /* ── THE GAP ── */
+  .gap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 720px) { .gap-grid { grid-template-columns: 1fr; } }
+  .gap-card { border-radius: 20px; padding: 28px; border: 1px solid var(--border); background: var(--surface); }
+  .gap-card.them { background: var(--surface2); }
+  .gap-card h3 { font-size: 1.05rem; font-weight: 750; margin-bottom: 14px; letter-spacing: -.3px; }
+  .gap-card ul { list-style: none; display: grid; gap: 10px; }
+  .gap-card li { font-size: .95rem; padding-left: 28px; position: relative; color: var(--muted); }
+  .gap-card li::before { position: absolute; left: 0; top: 0; font-weight: 800; }
+  .gap-card.them li::before { content: "✕"; color: var(--soft); }
+  .gap-card.us li::before { content: "✓"; color: var(--teal); }
+  .gap-card.us li { color: var(--text); }
+
+  /* ── FEATURES ── */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 26px; }
+  .card .ico {
+    width: 42px; height: 42px; border-radius: 12px; margin-bottom: 16px;
+    display: grid; place-items: center; font-size: 1.15rem; background: var(--blue-bg);
+  }
+  .card.teal .ico { background: var(--teal-bg); }
+  .card h3 { font-size: 1.06rem; font-weight: 750; margin-bottom: 7px; letter-spacing: -.3px; }
+  .card p { color: var(--muted); font-size: .95rem; }
+
+  /* ── SCREENS ── */
+  .screens { background: linear-gradient(180deg, var(--surface2), var(--bg)); }
+  .shots { display: flex; gap: 20px; overflow-x: auto; padding: 8px 4px 24px; scroll-snap-type: x mandatory; }
+  .shot { flex: 0 0 232px; scroll-snap-align: center; text-align: center; }
+  .shot img {
+    width: 100%; border-radius: 26px; display: block;
+    border: 1px solid var(--border); box-shadow: 0 16px 40px rgba(var(--shadow), .14);
+  }
+  .shot figcaption { margin-top: 12px; font-size: .86rem; color: var(--muted); }
+
+  /* ── PATHS ── */
+  .paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .path { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--cyan); border-radius: 14px; padding: 16px 18px; }
+  .path b { display: block; font-size: .97rem; font-weight: 700; margin-bottom: 4px; }
+  .path span { font-size: .88rem; color: var(--muted); }
+
+  /* ── PRICING ── */
+  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+  .plan { background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 30px; }
+  .plan.pro { border-color: transparent; background: linear-gradient(150deg, var(--blue-deep), var(--blue)); color: #fff; }
+  .plan h3 { font-size: 1.25rem; font-weight: 800; letter-spacing: -.4px; margin-bottom: 4px; }
+  .plan .kicker { font-size: .9rem; color: var(--muted); margin-bottom: 20px; }
+  .plan.pro .kicker { color: rgba(255,255,255,.72); }
+  .plan ul { list-style: none; display: grid; gap: 11px; }
+  .plan li { font-size: .95rem; padding-left: 26px; position: relative; }
+  .plan li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--blue); font-weight: 800; }
+  .plan.pro li::before { color: #8FE3CE; }
+
+  /* ── PRIVACY ── */
+  .privacy { background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 34px; text-align: center; }
+  .privacy h2 { font-size: 1.5rem; }
+  .privacy p { color: var(--muted); max-width: 62ch; margin: 0 auto; }
+  .privacy p + p { margin-top: 12px; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; color: var(--text); }
+
+  /* ── FINAL CTA ── */
+  .final {
+    text-align: center; color: #fff;
+    background:
+      radial-gradient(700px 300px at 50% 0%, color-mix(in srgb, var(--cyan) 38%, transparent), transparent 70%),
+      linear-gradient(150deg, var(--blue-deep), var(--blue));
+    border-radius: 28px; padding: 64px 28px; margin: 0 0 84px;
+  }
+  .final h2 { color: #fff; }
+  .final p { color: rgba(255,255,255,.8); max-width: 48ch; margin: 0 auto 28px; }
+  .final .soon-pill { background: rgba(255,255,255,.14); color: #fff; border-color: rgba(255,255,255,.4); }
+  .final .soon-pill .dot { background: #fff; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border); padding: 32px 0 44px; font-size: .88rem; color: var(--muted);
+    display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center;
+  }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--text); }
+  .foot-links { display: flex; gap: 18px; flex-wrap: wrap; }
+  .legal { font-size: .8rem; color: var(--soft); max-width: 62ch; margin-top: 4px; }
+
+  @media (max-width: 720px) {
+    nav { padding: 12px 18px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    section { padding: 60px 0; }
+    .final { border-radius: 22px; padding: 48px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#top"><img src="assets/app-icon.png" alt=""><span>Deploy Studio</span></a>
+  <a class="nav-cta" href="#coming">Coming soon</a>
+</nav>
+
+<header class="hero" id="top">
+  <img class="hero-icon" src="assets/app-icon.png" alt="Deploy Studio app icon">
+  <h1>Ship a release <em>from your phone</em></h1>
+  <p class="sub">Apple's App Store Connect app shows you builds and sales. It can't create a version, write release notes, pick a build, or submit anything. Deploy Studio can — and it says plainly what's still standing between you and App&nbsp;Review.</p>
+  <div class="cta-row">
+    <span class="soon-pill"><span class="dot"></span>Coming to the App Store</span>
+    <a class="btn-ghost" href="#inside">See what it does</a>
+  </div>
+  <p class="hero-note">iPhone &amp; iPad · Free · No account, and no key needed to look around</p>
+
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="n">12</div><div class="l">checklist rows</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">servers involved</div></div>
+      <div class="stat"><div class="n">1</div><div class="l">host it talks to</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">tabs, no menus</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="why">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow">Why it exists</p>
+      <h2>The one thing Apple's app won't do</h2>
+      <p class="lede">You can watch a build land from anywhere. You just can't ship it — that part still needs a desk.</p>
+    </div>
+    <div class="gap-grid">
+      <div class="gap-card them">
+        <h3>App Store Connect on iPhone</h3>
+        <ul>
+          <li>Create a version</li>
+          <li>Write release notes</li>
+          <li>Pick the build to ship</li>
+          <li>Answer export compliance</li>
+          <li>Submit for review</li>
+        </ul>
+      </div>
+      <div class="gap-card us">
+        <h3>Deploy Studio</h3>
+        <ul>
+          <li>Create a version</li>
+          <li>Write release notes</li>
+          <li>Pick the build to ship</li>
+          <li>Answer export compliance</li>
+          <li>Submit for review — with its purchases</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="inside">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow">What it does</p>
+      <h2>A checklist, not a maze of tabs</h2>
+      <p class="lede">One screen per version, listing everything between you and App Review. Each row is a single tap from being fixed.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="ico">📋</div>
+        <h3>Twelve rows, one screen</h3>
+        <p>Build, export compliance, release notes, screenshots, store listing, app information, age rating, price, review contact, release option — and the purchases going with it.</p>
+      </div>
+      <div class="card">
+        <div class="ico">💬</div>
+        <h3>A Submit button that explains itself</h3>
+        <p>When it's disabled, it tells you why in the words a person uses: “add at least one screenshot”, not a status enum.</p>
+      </div>
+      <div class="card">
+        <div class="ico">🧾</div>
+        <h3>Version and purchases together</h3>
+        <p>App Review can take a version and its in-app purchases as one submission. Deploy Studio exposes that, so a release and the purchases it depends on go in together.</p>
+      </div>
+      <div class="card teal">
+        <div class="ico">🔔</div>
+        <h3>It tells you first</h3>
+        <p>A Today screen answering “is there anything I should do” across every app, a notification when a version is approved or rejected, and a Home Screen widget.</p>
+      </div>
+      <div class="card teal">
+        <div class="ico">📈</div>
+        <h3>After the release</h3>
+        <p>The App Store funnel — impressions, product page views, downloads and the conversion between them. Sales and proceeds. Ratings and reviews you can reply to.</p>
+      </div>
+      <div class="card teal">
+        <div class="ico">🔧</div>
+        <h3>The things that break a build</h3>
+        <p>Certificates, profiles, devices and bundle IDs, plus TestFlight testers, phased release, sandbox testers, users and Xcode Cloud.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screens">
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow">Inside the app</p>
+      <h2>It opens on the answer, not a dashboard</h2>
+    </div>
+    <div class="shots">
+      <figure class="shot"><img src="screenshots/01-03-today.png" alt="The Today screen summarising what needs attention" loading="lazy"><figcaption>Today — anything I should do?</figcaption></figure>
+      <figure class="shot"><img src="screenshots/02-02-apps.png" alt="Every app in one list" loading="lazy"><figcaption>Every app, one screen</figcaption></figure>
+      <figure class="shot"><img src="screenshots/03-05-checklist-ready.png" alt="A release checklist with every row satisfied" loading="lazy"><figcaption>Everything Apple needs is here</figcaption></figure>
+      <figure class="shot"><img src="screenshots/04-06-checklist-blocked.png" alt="A checklist showing what is still blocking the release" loading="lazy"><figcaption>…or exactly what isn't</figcaption></figure>
+      <figure class="shot"><img src="screenshots/05-08-sales-30d.png" alt="Sales over the last thirty days" loading="lazy"><figcaption>Sales and proceeds</figcaption></figure>
+      <figure class="shot"><img src="screenshots/06-11-xcode-cloud-run.png" alt="An Xcode Cloud build running" loading="lazy"><figcaption>Start a build from anywhere</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow">Try it first</p>
+      <h2>Look around before you hand it a key</h2>
+      <p class="lede">Tap <b>Look Around First</b> on the setup screen and the whole app opens against sample data — three example apps with versions, builds, purchases, crash reports, sales and a full release checklist. Nothing is sent anywhere, and a banner says so on every screen.</p>
+    </div>
+    <div class="paths">
+      <div class="path"><b>No sign-up</b><span>There is no account system. Nothing to create, nothing to remember.</span></div>
+      <div class="path"><b>Your own key</b><span>When you're ready, create an App Store Connect API key in your account and paste in the .p8.</span></div>
+      <div class="path"><b>Face ID</b><span>Lock the app, and the keys inside it, behind Face ID.</span></div>
+      <div class="path"><b>Switch teams</b><span>Add more than one key and tap to move between teams.</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="privacy">
+      <h2>Your key never leaves the device</h2>
+      <p>The <span class="mono">.p8</span> lives in the device Keychain, locked to this device and never synced to iCloud. Tokens are signed on the device, and the only place they go is <span class="mono">api.appstoreconnect.apple.com</span>. There is no server, no account, and no copy of your data anywhere but your phone.</p>
+      <p>Nothing from your App Store Connect account — app names, bundle identifiers, sales figures, your key — is ever logged. The analytics the app does send are closed lists of screen names and counts, so your data can't end up in one even by mistake.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head center">
+      <p class="eyebrow">Pricing</p>
+      <h2>Every feature is free</h2>
+      <p class="lede">The purchase removes ads. It doesn't unlock anything — there is no feature behind it.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Free</h3>
+        <p class="kicker">The whole app</p>
+        <ul>
+          <li>Submit a release for review</li>
+          <li>The full twelve-row checklist</li>
+          <li>Sales, funnel, reviews and crashes</li>
+          <li>TestFlight, Xcode Cloud and account settings</li>
+          <li>Notifications and the widget</li>
+          <li>A banner ad at the bottom</li>
+        </ul>
+      </div>
+      <div class="plan pro">
+        <h3>Deploy Pro</h3>
+        <p class="kicker">One payment, no subscription</p>
+        <ul>
+          <li>Everything in Free</li>
+          <li>No ads, anywhere</li>
+          <li>No tracking prompt to decline</li>
+          <li>That's the entire difference</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="final" id="coming">
+    <h2>Nearly there</h2>
+    <p>Deploy Studio is built and waiting on App Review. When it lands, this button becomes the download.</p>
+    <span class="soon-pill"><span class="dot"></span>Coming to the App Store</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <footer>
+    <div>
+      <div>© 2026 Kelvin Tan</div>
+      <p class="legal">App Store, App Store Connect, TestFlight and Xcode are trademarks of Apple Inc. Deploy Studio is an independent app and is not affiliated with, endorsed by, or sponsored by Apple.</p>
+    </div>
+    <div class="foot-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="mailto:kelvin.vins@gmail.com?subject=Deploy%20Studio%20support">Support</a>
+      <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms</a>
+      <a href="https://zhiyao92.github.io/ios-apps/">More apps</a>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>

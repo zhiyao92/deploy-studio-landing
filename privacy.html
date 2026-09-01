@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deploy Studio — Privacy Policy</title>
+<link rel="icon" href="assets/app-icon.png">
+<link rel="canonical" href="https://zhiyao92.github.io/deploy-studio-landing/privacy.html">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --ground:#FAFBFF; --ink:#101728; --muted:#5C6580; --edge:#E1E7F3; --accent:#1D63C8; }
+  @media (prefers-color-scheme: dark) {
+    :root { --ground:#0B1020; --ink:#EAEEF8; --muted:#98A3BF; --edge:#253048; --accent:#6FA3F2; }
+  }
+  body {
+    background: var(--ground); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: clamp(2rem,6vw,4rem) clamp(1.1rem,4vw,2rem) 4rem; }
+  a { color: var(--accent); }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.4rem); font-weight: 800; letter-spacing: -1px; margin-bottom: .4rem; }
+  .meta { color: var(--muted); margin-bottom: 2.2rem; font-size: .95rem; }
+  h2 { font-size: 1.3rem; font-weight: 750; letter-spacing: -.4px; margin: 2rem 0 .6rem; }
+  p, li { color: var(--ink); }
+  p + p { margin-top: .7rem; }
+  ul { padding-left: 1.2rem; margin: .5rem 0; }
+  li + li { margin-top: .35rem; }
+  code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; }
+  .muted { color: var(--muted); font-size: .9rem; }
+  .back { display: inline-block; margin-bottom: 1.6rem; font-size: .9rem; text-decoration: none; font-weight: 650; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">&larr; Deploy Studio</a>
+  <h1>Deploy Studio Privacy Policy</h1>
+  <p class="meta">Effective 1 September 2026 · <a href="index.html">Deploy Studio</a> · Kelvin Tan</p>
+
+  <p>Deploy Studio is a client for Apple's App Store Connect API. It runs entirely on your device: there is no server of ours, no account to create, and no copy of your App Store Connect data anywhere but your iPhone. This policy sets out exactly what the app holds, what leaves the device, and what the third-party components collect.</p>
+
+  <h2>Your API key</h2>
+  <ul>
+    <li>The App Store Connect API key you provide (the <code>.p8</code> private key, its key ID and issuer ID) is stored in the device Keychain with <code>kSecAttrAccessibleWhenUnlockedThisDeviceOnly</code> and marked non-synchronizable. It does not sync to iCloud and does not transfer to a new device.</li>
+    <li>Request tokens are signed on the device. The key itself is never transmitted, never written to analytics or crash reports, and never sent to us — we have no server that could receive it.</li>
+    <li>Removing the key in the app deletes it from the Keychain.</li>
+  </ul>
+
+  <h2>Your App Store Connect data</h2>
+  <p>Everything the app shows you — your apps, versions, builds, release notes, screenshots, in-app purchases, sales and proceeds, ratings and reviews, crash reports, certificates, profiles, devices, testers and Xcode Cloud runs — is fetched directly from <code>api.appstoreconnect.apple.com</code> to your device, using your own key, on your own behalf. It is not routed through, copied to, or stored on any system of ours. Cached copies live on your device and are cleared when you sign out or delete the app.</p>
+  <p>Anything you write in the app — release notes, a store listing, a reply to a review — goes from your device to Apple and nowhere else. Apple's handling of it is covered by your Apple Developer Program agreement, not by this policy.</p>
+
+  <h2>Demo mode</h2>
+  <p>Choosing “Look Around First” opens the app against built-in sample data. No network request to Apple is made and no key is required.</p>
+
+  <h2>Notifications and the widget</h2>
+  <p>Optional notifications when a version is approved or rejected are local. The check that produces them runs on your device through background app refresh; there is no push server and no remote notification. The Home Screen widget reads the same on-device cache through an App Group.</p>
+
+  <h2>Face ID</h2>
+  <p>You can require Face ID to unlock the app and its stored keys. Authentication is performed by iOS; the app is told only whether it succeeded and never receives your biometric data, which stays in the Secure Enclave.</p>
+
+  <h2>Analytics and diagnostics</h2>
+  <p>The app uses Firebase Analytics and Crashlytics to report which screens are opened, how often core actions succeed or fail, and crash and performance diagnostics. Events are defined as closed lists of screen names, enumerated values and counts, so no free text can be attached — it is structurally impossible for an app name, bundle identifier, sales figure or key to appear in one. This data is not linked to an identity; the app has no accounts. See <a href="https://firebase.google.com/support/privacy">Firebase's privacy information</a>.</p>
+
+  <h2>Advertising</h2>
+  <p>The free version shows banner ads served by Google AdMob. AdMob may collect device identifiers (including the advertising identifier, only if you allow it at Apple's App Tracking Transparency prompt), coarse location derived from IP address, ad interaction data and diagnostic data, and may use some of it to track across apps and websites. Declining the prompt keeps the ads, just less personalised. See <a href="https://policies.google.com/privacy">Google's privacy policy</a>. The Deploy Pro purchase removes ads entirely, and with them this collection.</p>
+
+  <h2>Purchases</h2>
+  <p>Deploy Pro is a one-off purchase processed by Apple; it removes advertising and unlocks no features. <a href="https://www.revenuecat.com/privacy">RevenueCat</a> manages purchase status and receives the transaction against an anonymous, randomly generated identifier — not your name, email or Apple Account. We never see payment details.</p>
+
+  <h2>What is never collected</h2>
+  <ul>
+    <li>No accounts, and no collection of your name, email address or contacts.</li>
+    <li>No location, photo library or contacts permission is requested at all.</li>
+    <li>Your API key, app names, bundle identifiers and financial figures are never logged or retained by us.</li>
+    <li>Nothing is sold to, or shared with, data brokers.</li>
+  </ul>
+
+  <h2>Your choices</h2>
+  <ul>
+    <li>Remove your API key in the app at any time; revoke it in App Store Connect to be certain.</li>
+    <li>Control ad tracking in iOS Settings → Privacy &amp; Security → Tracking.</li>
+    <li>Turn off change notifications in iOS Settings &rarr; Notifications &rarr; Deploy Studio. The in-app row grants permission; iOS owns switching it back off.</li>
+    <li>Lock the app, and your keys, behind Face ID in Settings.</li>
+    <li>Deleting the app removes the Keychain entry, the cache and the App Group data.</li>
+  </ul>
+
+  <h2>Children</h2>
+  <p>Deploy Studio is a developer tool, is not directed at children under 13, and does not knowingly collect information from them.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, the new version appears here with a new effective date. Material changes are noted in the app's release notes.</p>
+
+  <h2>Contact</h2>
+  <p><a href="mailto:kelvin.vins@gmail.com?subject=Deploy%20Studio%20privacy">kelvin.vins@gmail.com</a></p>
+
+  <p class="muted" style="margin-top:2.4rem">Deploy Studio is an independent client for Apple's public App Store Connect API. App Store, App Store Connect, TestFlight and Xcode are trademarks of Apple Inc. Deploy Studio is not affiliated with, endorsed by, or sponsored by Apple.</p>
+</div>
+</body>
+</html>
