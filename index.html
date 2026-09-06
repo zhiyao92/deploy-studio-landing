@@ -80,18 +80,29 @@
 
   /* ── HERO ── */
   .hero {
-    padding: 150px 24px 72px; text-align: center;
+    padding: 136px 24px 72px;
     background:
       radial-gradient(900px 420px at 50% -10%, color-mix(in srgb, var(--blue) 18%, transparent), transparent 70%),
       linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+    overflow: hidden;
+  }
+  .hero-layout {
+    max-width: 1080px; margin: 0 auto; display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 390px);
+    gap: clamp(44px, 8vw, 104px); align-items: center; text-align: left;
+  }
+  .hero-copy { max-width: 620px; }
+  .hero-kicker {
+    color: var(--blue); font-size: .76rem; font-weight: 800; letter-spacing: 1.8px;
+    text-transform: uppercase; margin-bottom: 16px;
   }
   .hero-icon {
-    width: 96px; height: 96px; border-radius: 24px; margin: 0 auto 26px; display: block;
+    width: 72px; height: 72px; border-radius: 19px; margin: 0 0 24px; display: block;
     box-shadow: 0 18px 40px rgba(var(--shadow), .28);
   }
   .hero h1 {
-    font-size: clamp(2.3rem, 6vw, 3.9rem); line-height: 1.08;
-    letter-spacing: -2px; font-weight: 800; max-width: 16ch; margin: 0 auto 20px;
+    font-size: clamp(2.7rem, 6vw, 5rem); line-height: 1.02;
+    letter-spacing: -2.8px; font-weight: 800; max-width: 10ch; margin: 0 0 22px;
   }
   .hero h1 em {
     font-style: normal;
@@ -100,9 +111,9 @@
   }
   .hero p.sub {
     font-size: clamp(1.02rem, 2.2vw, 1.2rem); color: var(--muted);
-    max-width: 56ch; margin: 0 auto 34px;
+    max-width: 50ch; margin: 0 0 32px;
   }
-  .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
   .btn-primary {
     display: inline-flex; align-items: center; gap: 9px;
     background: linear-gradient(120deg, var(--blue), var(--cyan));
@@ -119,18 +130,25 @@
     transition: border-color .2s;
   }
   .btn-ghost:hover { border-color: var(--soft); }
-  .soon-pill {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--blue-bg); color: var(--blue); font-weight: 700; font-size: 1rem;
-    padding: 15px 30px; border-radius: 100px;
-    border: 1px dashed color-mix(in srgb, var(--blue) 45%, transparent);
+  .hero-visual {
+    position: relative; justify-self: center; width: min(100%, 330px); padding: 16px;
+    border: 1px solid color-mix(in srgb, var(--blue) 20%, var(--border));
+    border-radius: 34px; background: color-mix(in srgb, var(--surface) 74%, transparent);
+    box-shadow: 0 28px 70px rgba(var(--shadow), .18), 0 0 0 10px color-mix(in srgb, var(--blue) 5%, transparent);
+    transform: rotate(2deg);
   }
-  .soon-pill .dot {
-    width: 8px; height: 8px; border-radius: 50%; background: var(--blue);
-    animation: pulse 2s ease-in-out infinite;
+  .hero-visual img { display: block; width: 100%; border-radius: 24px; }
+  .hero-visual-label {
+    position: absolute; z-index: 2; top: 30px; left: -30px; padding: 10px 14px;
+    background: var(--text); color: var(--bg); border-radius: 12px; font-size: .76rem;
+    font-weight: 800; letter-spacing: .3px; box-shadow: 0 10px 24px rgba(0,0,0,.18);
   }
-  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(.8); } }
-  @media (prefers-reduced-motion: reduce) { .soon-pill .dot { animation: none; } }
+  .hero-visual-note {
+    position: absolute; z-index: 2; right: -28px; bottom: 30px; max-width: 150px;
+    padding: 11px 13px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 13px; color: var(--muted); font-size: .76rem; line-height: 1.35;
+    box-shadow: 0 12px 26px rgba(var(--shadow), .14);
+  }
   .hero-note { margin-top: 18px; font-size: .86rem; color: var(--soft); }
 
   /* ── STATS ── */
@@ -192,6 +210,7 @@
     border: 1px solid var(--border); box-shadow: 0 16px 40px rgba(var(--shadow), .14);
   }
   .shot figcaption { margin-top: 12px; font-size: .86rem; color: var(--muted); }
+  .shot:first-child img { box-shadow: 0 20px 48px color-mix(in srgb, var(--blue) 20%, transparent); }
 
   /* ── PATHS ── */
   .paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
@@ -243,6 +262,15 @@
 
   @media (max-width: 720px) {
     nav { padding: 12px 18px; }
+    .nav-cta { padding: 9px 13px; font-size: .78rem; }
+    .hero { padding-top: 116px; }
+    .hero-layout { grid-template-columns: 1fr; gap: 42px; text-align: center; }
+    .hero-copy { margin: 0 auto; }
+    .hero-icon { margin-left: auto; margin-right: auto; }
+    .hero h1 { margin-left: auto; margin-right: auto; }
+    .hero p.sub { margin-left: auto; margin-right: auto; }
+    .cta-row { justify-content: center; }
+    .hero-visual { width: min(78vw, 310px); margin-right: 18px; }
     .stats { grid-template-columns: repeat(2, 1fr); }
     section { padding: 60px 0; }
     .final { border-radius: 22px; padding: 48px 22px; }
@@ -257,21 +285,31 @@
 </nav>
 
 <header class="hero" id="top">
-  <img class="hero-icon" src="assets/app-icon.png" alt="Deploy Studio app icon">
-  <h1>Ship a release <em>from your phone</em></h1>
-  <p class="sub">Apple's App Store Connect app shows you builds and sales. It can't create a version, write release notes, pick a build, or submit anything. Deploy Studio can — and it says plainly what's still standing between you and App&nbsp;Review.</p>
-  <div class="cta-row">
-    <a class="btn-primary" href="https://apps.apple.com/my/app/deploy-studio/id6806610127">Download on the App Store <span aria-hidden="true">↗</span></a>
-    <a class="btn-ghost" href="#inside">See what it does</a>
+  <div class="hero-layout">
+    <div class="hero-copy">
+      <img class="hero-icon" src="assets/app-icon.png" alt="Deploy Studio app icon">
+      <p class="hero-kicker">App Store Connect, finally on iPhone</p>
+      <h1>Ship the release. <em>From anywhere.</em></h1>
+      <p class="sub">The release console for developers who would rather not open a Mac just to get an update into the App Store.</p>
+      <div class="cta-row">
+        <a class="btn-primary" href="https://apps.apple.com/my/app/deploy-studio/id6806610127">Download on the App Store <span aria-hidden="true">↗</span></a>
+        <a class="btn-ghost" href="#inside">See inside</a>
+      </div>
+      <p class="hero-note">iPhone &amp; iPad · Free to use · Your key stays on your device</p>
+    </div>
+    <div class="hero-visual">
+      <span class="hero-visual-label">Today</span>
+      <img src="screenshots/01-03-today.png" alt="Deploy Studio Today screen showing release activity" fetchpriority="high">
+      <span class="hero-visual-note">Know what needs attention before you open the laptop.</span>
+    </div>
   </div>
-  <p class="hero-note">iPhone &amp; iPad · Free · No account, and no key needed to look around</p>
 
   <div class="wrap">
     <div class="stats">
-      <div class="stat"><div class="n">12</div><div class="l">checklist rows</div></div>
-      <div class="stat"><div class="n">0</div><div class="l">servers involved</div></div>
-      <div class="stat"><div class="n">1</div><div class="l">host it talks to</div></div>
-      <div class="stat"><div class="n">3</div><div class="l">tabs, no menus</div></div>
+      <div class="stat"><div class="n">12</div><div class="l">checks before submit</div></div>
+      <div class="stat"><div class="n">1</div><div class="l">clear release flow</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">servers with your key</div></div>
+      <div class="stat"><div class="n">All</div><div class="l">apps, one place</div></div>
     </div>
   </div>
 </header>
@@ -280,12 +318,12 @@
   <div class="wrap">
     <div class="section-head center">
       <p class="eyebrow">Why it exists</p>
-      <h2>The one thing Apple's app won't do</h2>
-      <p class="lede">You can watch a build land from anywhere. You just can't ship it — that part still needs a desk.</p>
+      <h2>Everything between build and App Review</h2>
+      <p class="lede">A release is more than a build. Deploy Studio puts the decisions, checks, and final submission in one calm flow.</p>
     </div>
     <div class="gap-grid">
       <div class="gap-card them">
-        <h3>App Store Connect on iPhone</h3>
+        <h3>The old release routine</h3>
         <ul>
           <li>Create a version</li>
           <li>Write release notes</li>
@@ -295,7 +333,7 @@
         </ul>
       </div>
       <div class="gap-card us">
-        <h3>Deploy Studio</h3>
+        <h3>The Deploy Studio flow</h3>
         <ul>
           <li>Create a version</li>
           <li>Write release notes</li>
