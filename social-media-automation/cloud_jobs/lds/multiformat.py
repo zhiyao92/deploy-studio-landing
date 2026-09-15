@@ -226,7 +226,9 @@ def run():
             reconcile(db)
             final=ref.get().to_dict()['status']
             notify(f'LDS {kind}: {final}. Buffer posts: '+json.dumps(results))
-            return 0 if final in ('sent','submitted') else 1
+            # Buffer can remain `sending` for several minutes after accepting
+            # a post; the delivery-check job reconciles it later.
+            return 0 if final in ('sent','submitted','sending') else 1
     except Exception as exc:
         # Do not include provider headers, environment values, or secret URLs in errors.
         message=f'{type(exc).__name__}: {str(exc)[:400]}'
