@@ -7,7 +7,7 @@ Saved 2026-09-08 following Kelvin's approval. This is the agreed specification; 
 - Useful, comforting, Christ-centered devotional content, with occasional soft app promotion.
 - Avoid repetitive “good morning”/daily-routine framing. Rotate the reader's situation and emotional entry point: waiting for an answer, recovering after a mistake, feeling unseen, choosing forgiveness, serving quietly, facing uncertainty, or finding peace in a busy day.
 - Use a seven-angle rotation (comfort, courage, perspective, belonging, action, reflection, gratitude) and do not repeat the same angle or opening pattern on consecutive days. Make the first line specific enough to feel personally relevant, not generic encouragement.
-- Mix single posts, carousels, and genuine nature-video reels. Proposed initial weekly mix: three singles, two carousels, two reels within the existing daily cadence. Scheduling still requires implementation.
+- Reels are retired from the scheduled mix after consistently weak reach. Use four carousels and three single posts each week, with no consecutive identical format where possible.
 - Single: one memorable short reflection, warm paper texture, restrained serif type.
 - Carousel: a relatable opening, one clear idea per slide, and a practical closing. Five slides is a useful default.
 - Reel: actual moving nature footage, not a still image with a zoom or an abstract motion-graphics substitute. About 20 seconds, short timed text, gentle transitions, permitted quiet audio.
@@ -87,5 +87,5 @@ Use the actual creator and required source link for each selected video, not the
 - Preview generators: scripts/lds-format-previews.py and scripts/lds-motion-reel.py --nature
 - Superseded directions: still-image zoom reel, abstract motion-graphics reel, top branding, reusable footage library.
 - Cloud implementation completed 2026-09-08: multi-format rendering, Pexels footage search, permanent provider-ID reservations, contrast backing, caption enforcement, GitHub release hosting and bounded cleanup. All three cloud format dry runs passed with Slack confirmation. No live post was created during validation.
-- Daily publishing: 04:30 Asia/Kuala_Lumpur; Monday/Thursday carousel, Tuesday/Friday nature reel, Wednesday/Saturday/Sunday single. Instagram uses this mix; Threads/Facebook receive static companion cards.
+- Daily publishing: 04:30 Asia/Kuala_Lumpur; carousel, single, carousel, single, carousel, single, carousel across the seven-day cycle. Instagram uses the selected format; Threads/Facebook receive static companion cards.
 - Independent delivery check: 05:00 Asia/Kuala_Lumpur. Operational limits and recovery behavior are documented in cloud_jobs/lds/MULTIFORMAT.md. Firestore runtime fields record the activated image and validation runs.

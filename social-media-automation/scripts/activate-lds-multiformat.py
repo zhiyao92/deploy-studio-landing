@@ -15,11 +15,11 @@ for snap in db.collection('ldsPublishingRuns').order_by('createdAt',direction=fi
     if (data.get('dryRun') and data.get('status')=='dry_run_complete' and data.get('slackVerified')
             and data.get('image')==IMAGE):
         passed.setdefault(data['format'],snap.id)
-assert set(passed)=={'single','carousel','reel'},'All formats must pass Slack-verified dry runs first'
+assert {'single','carousel'}.issubset(set(passed)),'Single and carousel dry runs must pass Slack verification first'
 db.collection('contentStrategies').document('lds-quotes').set({
  'multiformatEnabled':True,'runtimeStatus':'multiformat-deployed-and-dry-run-verified','deployedImage':IMAGE,
  'pendingRequirements':[],'validationRuns':passed,'deployedAt':firestore.SERVER_TIMESTAMP,
- 'weeklyFormats':['carousel','reel','single','carousel','reel','single','single'],
+ 'weeklyFormats':['carousel','single','carousel','single','carousel','single','carousel'],
  'postingTime':'04:30','deliveryCheckTime':'05:00','timezone':'Asia/Kuala_Lumpur',
  'mediaHosting':'gcs-public-lifecycle','mediaBucket':'social-media-automation-5c9db-social-media','retentionDays':8,'maxHostedMB':350,
  'maxOutputTokens':1400,'maxPexelsQueries':6,'neverReuseProviderVideoId':True,

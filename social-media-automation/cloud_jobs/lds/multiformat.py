@@ -20,7 +20,9 @@ from release_media import ReleaseMedia
 from slack_handler import SlackHandler
 
 PROJECT='social-media-automation-5c9db'
-FORMATS=('carousel','reel','single','carousel','reel','single','single')
+# Reels are intentionally retired after low observed reach. Keep a carousel-
+# first mix that is useful on Instagram and degrades cleanly to static cards.
+FORMATS=('carousel','single','carousel','single','carousel','single','carousel')
 LOG=logging.getLogger('lds-multiformat')
 
 def format_for(day, override=None, dry=False):
