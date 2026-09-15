@@ -178,7 +178,7 @@ def run():
             folder=Path(tmp)
             paths=[]
             for i,text in enumerate(data['slides']):
-                p=folder/f'slide-{i+1}.png';card(text,p,i+1,len(data['slides']) if kind=='carousel' else None);paths.append(p)
+                p=folder/f'slide-{i+1}.jpg';card(text,p,i+1,len(data['slides']) if kind=='carousel' else None);paths.append(p)
             if kind=='reel':
                 footage=choose(db,os.environ['PEXELS_API_KEY'],run_id,dry)
                 ref.update({'footage':footage})
@@ -212,7 +212,9 @@ def run():
                 LOG.info('DRY_RUN_COMPLETE %s %s',run_id,assets[0]['url'])
                 return 0
             results={}
+            only=os.environ.get('LDS_ONLY_PLATFORM','').strip().lower()
             for platform,p in submissions.items():
+                if only and platform!=only: continue
                 # Durable marker before sending. A timeout never triggers a blind retry.
                 ref.update({f'attempts.{platform}':'sending','status':'submitting'})
                 r=gql('mutation CreatePost($input: CreatePostInput!) { createPost(input:$input) { ... on PostActionSuccess { post { id status } } ... on MutationError { message } } }',{'input':p})['createPost']

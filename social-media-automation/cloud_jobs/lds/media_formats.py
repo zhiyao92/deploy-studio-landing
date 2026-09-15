@@ -55,7 +55,7 @@ def card(text, path, index=None, total=None):
     badge(im,1190)
     if index and total:
         ImageDraw.Draw(im).text((985,1275),f'{index} / {total}',font=font(23,False),fill='#65716A',anchor='rt')
-    im.save(path)
+    im.save(path, format='JPEG', quality=92, optimize=True, progressive=True)
 
 def probe(path):
     p=subprocess.run(['ffprobe','-v','error','-show_streams','-show_format','-of','json',str(path)],capture_output=True,text=True,timeout=30,check=True)
