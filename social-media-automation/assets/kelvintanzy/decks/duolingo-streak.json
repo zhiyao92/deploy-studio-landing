@@ -1,0 +1,35 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "external",
+  "lens": "growth mechanics",
+  "analysisType": "product teardown",
+  "sourceQuality": "primary",
+  "reviewStatus": "verified",
+  "verifiedOn": "2026-09-10",
+  "factChecks": [
+    {"type": "fact", "claim": "Duolingo redesigned streak milestones and sharing after user research.", "sourceUrl": "https://blog.duolingo.com/streak-milestone-design-animation/"},
+    {"type": "analysis", "claim": "Visible, celebratory progress can make effort feel worth protecting."}
+  ],
+  "angle": "habit loop teardown",
+  "shareValue": "A three-question test for making progress visible and worth celebrating.",
+  "source": {
+    "publisher": "Duolingo",
+    "title": "Animating the Duolingo Streak",
+    "url": "https://blog.duolingo.com/streak-milestone-design-animation/",
+    "published": "2021-12-13"
+  },
+  "caption": "Duolingo turned a number into something learners protect, celebrate, and share.",
+  "slides": [
+    {"kind": "hook", "text": "Duolingo turned a number into something people protect."},
+    {"kind": "beat", "text": "The streak makes invisible effort visible.", "kicker": "A few minutes of daily practice becomes a number that remembers yesterday."},
+    {"kind": "beat", "text": "But progress alone was not enough.", "kicker": "Duolingo says research showed some new learners did not understand the streak, and milestone moments needed to feel more exciting."},
+    {"kind": "diagram", "text": "The habit becomes a story", "items": ["Complete a small daily action", "See progress accumulate", "Celebrate a meaningful milestone", "Share the achievement"]},
+    {"kind": "close", "text": "The lesson is not “add a streak.”", "kicker": "Make real effort visible, understandable, and emotionally worth returning to."},
+    {"kind": "utility", "text": "Audit your progress loop", "items": ["Can users see effort accumulating?", "Do milestones feel meaningfully different?", "Is the achievement worth sharing?"]}
+  ],
+  "captions": {
+    "instagram": "Duolingo turned a number into something learners protect.\n\nThe streak makes small daily effort visible. But Duolingo's own design write-up shows the deeper work: make the symbol understandable, make milestones feel celebratory, and make achievements easy to share.\n\nThe takeaway is not to paste a streak onto every product. It is to give genuine progress a visible story. Save the final slide for your next retention review.\n\nWhat progress does your product currently leave invisible?\n\nSource: Duolingo, Animating the Duolingo Streak (2021)\nhttps://blog.duolingo.com/streak-milestone-design-animation/\n\n#ProductDesign #UXDesign #Duolingo #Retention #IndieDev",
+    "threads": "Duolingo turned a number into something learners protect.\n\nThe streak makes effort visible, milestones celebratory, and achievements shareable. The lesson is not “add a streak.” It is to give genuine progress a visible story.\n\nSource: https://blog.duolingo.com/streak-milestone-design-animation/",
+    "x": "Duolingo turned a number into something learners protect.\n\nThe streak makes effort visible, milestones celebratory, and achievements shareable.\n\nThe lesson is not “add a streak.” Make genuine progress visible."
+  }
+}

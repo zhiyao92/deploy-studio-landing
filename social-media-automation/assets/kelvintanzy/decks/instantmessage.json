@@ -1,0 +1,54 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "own",
+  "lens": "success metrics",
+  "analysisType": "builder case study",
+  "angle": "anti-retention product",
+  "shareValue": "A metric-selection test for products designed to finish a task quickly.",
+  "caption": "Built an app whose entire job is to get out of your way. Side effect: the only way to confirm it works is to physically do it on a real phone.\n\nSix years in, still no way around that.",
+  "slides": [
+    {
+      "kind": "hook",
+      "text": "The best session in this app lasts five seconds."
+    },
+    {
+      "kind": "beat",
+      "text": "WhatsApp won't let you message a number you haven't saved.",
+      "kicker": "So every one-time conversation costs you a permanent contact."
+    },
+    {
+      "kind": "beat",
+      "text": "My address book became a graveyard of people I messaged once.",
+      "kicker": "The answer became a switchboard."
+    },
+    {
+      "kind": "diagram",
+      "text": "The entire product loop",
+      "items": ["Type the number", "Choose the messaging app", "Land in the conversation"]
+    },
+    {
+      "kind": "close",
+      "text": "It hands you off.",
+      "kicker": "It builds a link and passes you to the real messaging app. The app itself does not transmit your message."
+    },
+    {
+      "kind": "beat",
+      "text": "Which means I can't test it on my computer.",
+      "kicker": "The Simulator has no WhatsApp. No Telegram. No Line. The one thing this app exists to do only works on a real phone."
+    },
+    {
+      "kind": "utility",
+      "text": "Choose a metric that matches the job",
+      "items": [
+        "What task should finish faster?",
+        "What friction should disappear?",
+        "What result matters after they leave?"
+      ]
+    }
+  ],
+  "captions": {
+    "instagram": "The best session in this app lasts five seconds.\n\nEnter a number. Choose the messaging app. Land in the conversation. InstantMessage succeeds by sending you somewhere else as quickly as possible.\n\nThat makes engagement a terrible success metric here. Time saved and tasks completed matter more than minutes spent inside the product. Share the last slide with a team choosing its success metric.\n\nWhich popular metric would mislead your product?\n\n#BuildInPublic #IndieDev #MobileApps #ProductDesign #UXDesign",
+    "threads": "The best session in this app lasts five seconds.\n\nInstantMessage succeeds by sending you somewhere else quickly. Engagement would be a terrible success metric; time saved matters more.\n\nWhich popular metric would mislead your product?",
+    "x": "The best session in this app lasts five seconds.\n\nIt succeeds by sending you somewhere else quickly. Engagement is the wrong metric; time saved is the product."
+  }
+}

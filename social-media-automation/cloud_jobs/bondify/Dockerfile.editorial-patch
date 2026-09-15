@@ -1,0 +1,5 @@
+FROM us-central1-docker.pkg.dev/social-media-automation-5c9db/cloud-run-source-deploy/bondify-publisher@sha256:76bcaa6600717c17cbb4a1166e6537cc1328c8b13358b6d20aabbaf5ffbb2f0c
+COPY editorial_research.py editorial_publisher.py editorial_media.py editorial_host.py /app/
+COPY assets/bondify-heart-light.png /app/assets/bondify-heart-light.png
+RUN pip install --no-cache-dir 'google-cloud-storage>=2.19,<3'
+RUN python -c "from pathlib import Path; from PIL import Image; import editorial_media; Image.open('/app/assets/bondify-heart-light.png').verify(); editorial_media.font(32); editorial_media.card('Build-time layout check', Path('/tmp/check.png'))"

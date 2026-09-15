@@ -1,0 +1,35 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "external",
+  "lens": "technology choice",
+  "analysisType": "tradeoff analysis",
+  "sourceQuality": "primary",
+  "reviewStatus": "verified",
+  "verifiedOn": "2026-09-10",
+  "factChecks": [
+    {"type": "fact", "claim": "Linear says its iOS app uses Swift and its Android app uses Kotlin to support a fast, fluid experience.", "sourceUrl": "https://linear.app/mobile"},
+    {"type": "analysis", "claim": "Separate native implementations likely create more platform-specific engineering work; Linear does not publish that maintenance cost here."}
+  ],
+  "angle": "native mobile technology tradeoff",
+  "shareValue": "A three-question test for deciding whether native mobile earns its added complexity.",
+  "source": {
+    "publisher": "Linear",
+    "title": "Introducing Linear Mobile",
+    "url": "https://linear.app/mobile",
+    "published": "Current product page, accessed 2026-09-10"
+  },
+  "caption": "Linear's native mobile technology choice is a product-quality bet with a real tradeoff.",
+  "slides": [
+    {"kind": "hook", "text": "Linear chose Swift and Kotlin instead of one shared mobile codebase."},
+    {"kind": "beat", "text": "That is a product decision disguised as a tech decision.", "kicker": "Linear says native development helps it guarantee a fast, fluid experience on both platforms."},
+    {"kind": "beat", "text": "The benefit is product quality. The likely cost is duplicated platform work.", "kicker": "That cost is my analysis, not a maintenance figure published by Linear."},
+    {"kind": "diagram", "text": "The native bet", "items": ["More platform-specific engineering", "Better access to native behavior", "The experience must justify the cost"]},
+    {"kind": "close", "text": "Native is not automatically better.", "kicker": "It is better only when customers can feel the advantage you are paying to create."},
+    {"kind": "utility", "text": "Should this product go native?", "items": ["Is performance product-critical?", "Do OS capabilities shape the experience?", "Can the team maintain each platform well?"]}
+  ],
+  "captions": {
+    "instagram": "Linear chose Swift for iOS and Kotlin for Android instead of one shared mobile codebase.\n\nIts stated reason is product quality: Linear says native development helps guarantee a fast, fluid experience on both platforms. The likely tradeoff—more platform-specific engineering and maintenance—is my analysis; Linear does not publish its maintenance cost here.\n\nThat makes the improvement test simple: does the experience visibly use the native advantages the team is paying for? If customers cannot feel the difference, the technical purity may not earn its cost. Save the final slide before choosing a mobile stack.\n\nWhen would you choose native over a shared codebase?\n\nSource: Linear, Introducing Linear Mobile\nhttps://linear.app/mobile\n\n#MobileDevelopment #ProductEngineering #Swift #Kotlin #ProductDesign",
+    "threads": "Linear chose Swift for iOS and Kotlin for Android. Its stated goal is a fast, fluid native experience.\n\nThe likely cost—more platform-specific work—is my analysis. The product question is whether customers can feel the advantage.\n\nSource: https://linear.app/mobile",
+    "x": "Linear chose Swift for iOS and Kotlin for Android to deliver a fast, fluid native experience.\n\nNative is worth it only when customers can feel the advantage the team is paying to create."
+  }
+}

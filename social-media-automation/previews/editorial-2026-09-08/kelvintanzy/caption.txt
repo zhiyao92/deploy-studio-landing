@@ -1,0 +1,9 @@
+Before adding another feature, give it one clear job.
+
+Who is it for? When will they use it? What should they be able to finish?
+
+Then put the smallest useful version in front of someone and watch where they get stuck.
+
+Which feature are you deciding whether to build?
+
+#BuildInPublic #IndieDev #ProductDesign #AppDevelopment #UXDesign

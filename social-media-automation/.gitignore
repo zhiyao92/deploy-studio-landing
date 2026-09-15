@@ -1,0 +1,12 @@
+.firebase/
+firebase-debug.log
+*-debug.log
+.env
+.env.*
+!.env.example
+__pycache__/
+.pytest_cache/
+.venv/
+*.egg-info/
+dist/
+tmp/

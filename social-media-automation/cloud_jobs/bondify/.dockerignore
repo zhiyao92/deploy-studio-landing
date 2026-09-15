@@ -1,0 +1,6 @@
+.env*
+.git
+drafts
+logs
+__pycache__
+*.md

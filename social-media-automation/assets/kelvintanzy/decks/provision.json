@@ -1,0 +1,44 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "own",
+  "lens": "identity and migration risk",
+  "analysisType": "technical tradeoff",
+  "angle": "trust disguised as technical debt",
+  "shareValue": "A dependency test for deciding whether technical debt is safe to clean up.",
+  "caption": "New name, new icon, new positioning. Same invisible ID underneath, because that ID is carrying every review the app has earned since 2020.\n\nThe tidy version of this would have cost me all of them.",
+  "slides": [
+    {
+      "kind": "hook",
+      "text": "The ugly bundle ID is worth more than clean code."
+    },
+    {
+      "kind": "beat",
+      "text": "It began as a way to sort out my own money.",
+      "kicker": "The name changed as the product became clearer. Its App Store identity could not."
+    },
+    {
+      "kind": "beat",
+      "text": "Every app has a hidden ID.",
+      "kicker": "It's how the App Store knows this is still the same app. Change it and you've shipped a brand new one. Reviews gone. Ranking gone."
+    },
+    {
+      "kind": "beat",
+      "text": "So my project folder is still named after the old app.",
+      "kicker": "So is the build scheme. Named after something that doesn't exist anymore. Mildly annoying every single day."
+    },
+    {
+      "kind": "utility",
+      "text": "Before cleaning technical debt, ask",
+      "items": [
+        "Does customer history depend on it?",
+        "Will identity or access change?",
+        "Can the migration be reversed?"
+      ]
+    }
+  ],
+  "captions": {
+    "instagram": "The ugly bundle ID is worth more than clean code.\n\nProvision has a new name, icon, and position—but the App Store identity underneath still carries the old name. Cleaning it up would mean starting over as a new app. Reviews, ranking, and history would not follow.\n\nBefore launch, technical purity is cheap. After launch, an awkward identifier can be customer trust wearing an ugly label. Keep the last slide for your next cleanup ticket.\n\nWhat imperfect part of your product is valuable because users depend on it?\n\n#BuildInPublic #IndieDev #iOSDeveloper #AppStore #ProductStrategy",
+    "threads": "The ugly bundle ID is worth more than clean code.\n\nChanging it would make Provision a new App Store product. Reviews, ranking, and history would not follow.\n\nSome technical debt is customer trust wearing an ugly label.",
+    "x": "The ugly bundle ID is worth more than clean code.\n\nChanging it would reset Provision's App Store identity. Some technical debt is customer trust wearing an ugly label."
+  }
+}

@@ -1,0 +1,7 @@
+**
+!cloud_jobs/
+!cloud_jobs/beam/
+!cloud_jobs/beam/**
+!assets/
+!assets/beam/
+!assets/beam/app-icon.png

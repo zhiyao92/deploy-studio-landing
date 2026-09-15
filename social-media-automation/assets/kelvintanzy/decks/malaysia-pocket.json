@@ -1,0 +1,56 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "own",
+  "lens": "high-stress interaction design",
+  "analysisType": "builder case study",
+  "angle": "designing for stress",
+  "shareValue": "A ten-second stress test for high-pressure screens and workflows.",
+  "caption": "I kept worrying about what the law actually let me do, and what I was allowed to do if things went wrong. Never had a good answer.\n\nSo I built the thing I wanted in my pocket. Seven years later I'm still adding to it.",
+  "slides": [
+    {
+      "kind": "hook",
+      "text": "An emergency screen should feel boring."
+    },
+    {
+      "kind": "beat",
+      "text": "What law actually protects me here?",
+      "kicker": "What am I allowed to say? What are they allowed to do? The moment you need the answer is the worst moment to start googling."
+    },
+    {
+      "kind": "diagram",
+      "text": "Design for the moment, not the menu",
+      "items": ["Name the situation clearly", "Show the right or next step", "Put real help one tap away"]
+    },
+    {
+      "kind": "beat",
+      "text": "Nobody opens this out of curiosity.",
+      "kicker": "Everyone opening it is having a bad day."
+    },
+    {
+      "kind": "close",
+      "text": "Which forced one rule.",
+      "kicker": "Red means emergency. Only emergency. Not errors, not delete buttons, not accents because it looks nice. The app icon isn't red either."
+    },
+    {
+      "kind": "beat",
+      "text": "Every emergency number is one tap to call.",
+      "kicker": "A stressed user should not have to copy, remember, or navigate again."
+    },
+    {
+      "kind": "utility",
+      "text": "Run the 10-second stress test",
+      "items": [
+        "Is the next action unmistakable?",
+        "Can one tap reach real help?",
+        "Can anything decorative disappear?"
+      ]
+    }
+  ],
+  "captions": {
+    "instagram": "An emergency screen should feel boring.\n\nWhen someone opens Malaysia Pocket under stress, visual cleverness becomes friction. The hierarchy needs to be obvious, the language calm, and an important number one tap away.\n\nThat is why red is reserved for emergencies instead of decoration. Restraint is doing product work. Save the final stress test before reviewing a critical flow.\n\nWhat would you remove if your user had only ten seconds?\n\n#BuildInPublic #IndieDev #Malaysia #UXDesign #ProductDesign",
+    "threads": "An emergency screen should feel boring.\n\nUnder stress, clever UI becomes friction. The hierarchy should be obvious, the language calm, and the important number one tap away.\n\nWhat would you remove if your user had ten seconds?",
+    "x": "An emergency screen should feel boring.\n\nUnder stress, clever UI becomes friction. Clear hierarchy, calm language, one-tap action."
+  },
+  "app_name": "Malaysia Pocket",
+  "app_store_url": "https://apps.apple.com/my/app/malaysia-pocket/id1504421248"
+}

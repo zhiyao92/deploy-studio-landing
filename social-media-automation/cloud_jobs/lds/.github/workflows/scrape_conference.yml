@@ -1,0 +1,78 @@
+name: Scrape LDS General Conference Quotes
+
+# Trigger: First day of each month at 2 AM UTC, or manually from Actions tab
+on:
+  schedule:
+    - cron: "0 2 1 * *"
+  workflow_dispatch:
+    inputs:
+      limit_sessions:
+        description: "Limit number of sessions to scrape (0 for all)"
+        required: false
+        default: "0"
+
+jobs:
+  scrape_and_merge:
+    # Self-hosted runner on Kelvin's Mac — see schedule_agent.yml.
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # setup-python can't work on a self-hosted Mac — see schedule_agent.yml.
+      - name: Install dependencies
+        run: |
+          python3.11 -m venv .venv
+          .venv/bin/pip install --quiet -r requirements.txt
+
+      - name: Scrape General Conference Quotes
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LLM_MODEL: "claude-opus-4-8"
+        run: |
+          LIMIT=${{ github.event.inputs.limit_sessions || '0' }}
+          if [ "$LIMIT" = "0" ]; then
+            .venv/bin/python conference_scraper.py
+          else
+            .venv/bin/python conference_scraper.py "$LIMIT"
+          fi
+
+      - name: Merge quotes into main database
+        run: .venv/bin/python merge_conference_quotes.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          if git diff --quiet quotes_data.json; then
+            echo "✓ No new quotes to commit"
+          else
+            git add quotes_data.json conference_quotes/
+            git commit -m "feat: add scraped conference quotes ($(date +%Y-%m-%d))"
+            git push
+            echo "✓ Committed new quotes"
+          fi
+
+      - name: Upload scraped quotes artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: conference-quotes
+          path: conference_quotes/
+          retention-days: 90
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## Conference Quote Scrape Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -d "conference_quotes" ]; then
+            QUOTE_COUNT=$(find conference_quotes -name "*.json" -exec grep -o '"id"' {} \; | wc -l)
+            FILE_COUNT=$(find conference_quotes -name "*.json" | wc -l)
+            echo "- **Quotes extracted**: $QUOTE_COUNT" >> $GITHUB_STEP_SUMMARY
+            echo "- **Category files**: $FILE_COUNT" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "- **Status**: ✓ Complete" >> $GITHUB_STEP_SUMMARY

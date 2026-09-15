@@ -1,0 +1,10 @@
+.gcloudignore
+.git
+__pycache__/
+**/__pycache__/
+*.pyc
+.env
+.env.*
+drafts/
+logs/
+tests/

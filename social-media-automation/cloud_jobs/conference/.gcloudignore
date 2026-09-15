@@ -1,0 +1,4 @@
+**
+!Dockerfile
+!cloudbuild.yaml
+!*.py

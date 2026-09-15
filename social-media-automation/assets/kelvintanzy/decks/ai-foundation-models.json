@@ -1,0 +1,99 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "external",
+  "lens": "AI product strategy",
+  "analysisType": "source-backed framework carousel",
+  "sourceQuality": "primary",
+  "reviewStatus": "verified",
+  "verifiedOn": "2026-09-10",
+  "factChecks": [
+    {"type": "fact", "claim": "Apple's Foundation Models framework exposes guided generation, streaming, tool calling, and stateful sessions around its on-device model.", "sourceUrl": "https://developer.apple.com/videos/play/wwdc2025/286/"},
+    {"type": "fact", "claim": "Apple describes its device-scale model as optimized for tasks including summarization, extraction, and classification, not world knowledge or advanced reasoning.", "sourceUrl": "https://developer.apple.com/videos/play/wwdc2025/286/"},
+    {"type": "analysis", "claim": "On-device models change which AI features can reasonably be integrated into everyday app workflows."}
+  ],
+  "angle": "guided generation turns model output into data a Swift app can use",
+  "shareValue": "A concrete travel-app example showing why typed model output is more useful than unstructured prose.",
+  "problemSolutionRequired": true,
+  "problemStatement": "Unstructured model prose is difficult and fragile for an app to parse into interface data.",
+  "solutionStatement": "Guided Generation lets the developer request a defined Swift type that can map directly into the interface.",
+  "claudeEditorial": true,
+  "source": {
+    "publisher": "Apple",
+    "title": "Meet the Foundation Models framework",
+    "url": "https://developer.apple.com/videos/play/wwdc2025/286/",
+    "published": "WWDC25"
+  },
+  "editorialBrief": {
+    "verifiedFacts": [
+      "The framework provides access to the on-device language model behind Apple Intelligence.",
+      "Apple documents guided generation into Swift data structures, streaming, tool calling, and stateful sessions."
+    ],
+    "analysis": "The important product question is not whether AI can generate text, but whether it removes a real decision, drafting, or organization burden inside the workflow.",
+    "doNotClaim": ["Do not call every interaction private or offline.", "Do not claim model accuracy, speed, or availability beyond the source."]
+  },
+  "slides": [
+    {
+      "kind": "hook",
+      "text": "A language model writes text. Your app needs usable data."
+    },
+    {
+      "kind": "diagram",
+      "role": "problem",
+      "eyebrow": "THE PROBLEM",
+      "text": "Why unstructured output causes work",
+      "items": [
+        "The model returns prose",
+        "The app tries to parse it",
+        "A format change can break the UI"
+      ],
+      "sourceLabel": "SOURCE · APPLE DEVELOPER · WWDC25"
+    },
+    {
+      "kind": "diagram",
+      "role": "solution",
+      "eyebrow": "APPLE’S SOLUTION",
+      "text": "Guided Generation changes the contract",
+      "items": [
+        "Define SearchSuggestions in Swift",
+        "Ask the model for that type",
+        "Receive a structured Swift object"
+      ],
+      "sourceLabel": "APPLE EXAMPLE · GUIDED GENERATION"
+    },
+    {
+      "kind": "example",
+      "eyebrow": "APPLE’S EXAMPLE · VISUALIZED",
+      "text": "Typed output can become app UI",
+      "inputLabel": "PROMPT",
+      "input": "Suggest four searches for an app about famous landmarks.",
+      "outputLabel": "SEARCHSUGGESTIONS.SEARCHTERMS · 4 ITEMS",
+      "items": [
+        "Historic sites",
+        "Architecture",
+        "Museums",
+        "Scenic views"
+      ],
+      "sourceLabel": "ILLUSTRATIVE UI · STRUCTURE FROM APPLE’S WWDC25 EXAMPLE"
+    },
+    {
+      "kind": "utility",
+      "text": "When this approach fits",
+      "items": [
+        "Output feeds a SwiftUI view",
+        "The data shape must stay predictable",
+        "The task is narrow and repeatable"
+      ]
+    },
+    {
+      "kind": "close",
+      "text": "Use the model for the job it is designed to do.",
+      "kicker": "Apple positions the device-scale model for tasks such as summarization, extraction, and classification—not world knowledge or advanced reasoning.",
+      "sourceLabel": "SOURCE · APPLE DEVELOPER · WWDC25"
+    }
+  ],
+  "captions": {
+    "instagram": "A language model writes text. Your app usually needs usable data.\n\nApple’s Guided Generation addresses that gap. In Apple’s travel-app example, the developer defines a SearchSuggestions Swift type, asks the model to generate it, and receives a structured object that can map directly to the interface.\n\nThe practical result: instead of prompting for JSON and repairing unexpected formatting, the app requests the shape it needs—four search suggestions—and renders those results as UI.\n\nThis approach fits narrow, repeatable tasks where predictable structure matters. Apple says its device-scale model is suited to work such as summarization, extraction, and classification—not world knowledge or advanced reasoning.\n\nWhat structured output would remove parsing work from your app?\n\nSource: Apple Developer, Meet the Foundation Models framework (WWDC25)\nhttps://developer.apple.com/videos/play/wwdc2025/286/\n\n#FoundationModels #SwiftUI #AppleDeveloper #AIProduct #iOSDevelopment",
+    "threads": "Apple’s Guided Generation lets an app request a Swift type instead of trying to parse unpredictable model prose.\n\nApple’s example generates four typed search suggestions for a travel app, ready to map into UI. Where would structured output remove parsing work in your app?\n\nSource: https://developer.apple.com/videos/play/wwdc2025/286/",
+    "x": "A language model returns prose. Your app needs data.\n\nApple’s Guided Generation lets you request a Swift type—such as four search suggestions—so the result can map directly into UI."
+  }
+}

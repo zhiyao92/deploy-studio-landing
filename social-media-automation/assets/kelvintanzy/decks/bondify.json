@@ -1,0 +1,54 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "own",
+  "lens": "choice architecture",
+  "analysisType": "builder case study",
+  "angle": "numbers versus usefulness",
+  "shareValue": "A three-question choice audit for products with too much content.",
+  "caption": "Built this because I noticed I'd become quite good at logistics with my own family and quite bad at conversation.\n\nThe content was the easy half. Picking which one you see is the actual product, and I'm still not done with it.",
+  "slides": [
+    {
+      "kind": "hook",
+      "text": "4,380 questions—and the database still wasn't the product."
+    },
+    {
+      "kind": "beat",
+      "text": "You live with someone for years.",
+      "kicker": "And somehow the conversation becomes logistics. What time. Who's picking up. Did you eat."
+    },
+    {
+      "kind": "beat",
+      "text": "I wanted to be better at this.",
+      "kicker": "Not in a self-improvement way. Just to know how to talk to my wife and my kids without reaching for my phone."
+    },
+    {
+      "kind": "beat",
+      "text": "So I wrote 4,380 questions.",
+      "kicker": "Across 9 different modes. Then I opened it and it felt like a fortune cookie."
+    },
+    {
+      "kind": "close",
+      "text": "A pile of content is not a product.",
+      "kicker": "A random question feels random. The right question feels like the app knows who you're sitting with."
+    },
+    {
+      "kind": "diagram",
+      "text": "Replace browsing with one decision",
+      "items": ["Know the relationship", "Read the moment", "Offer one useful prompt"]
+    },
+    {
+      "kind": "utility",
+      "text": "Audit the choices in your product",
+      "items": [
+        "Can context choose for the user?",
+        "Can one strong default replace a menu?",
+        "Can the next step fit on one card?"
+      ]
+    }
+  ],
+  "captions": {
+    "instagram": "4,380 questions sounds like a product advantage. It can also be a burden.\n\nNobody opens a relationship app hoping to browse a database. They want the right prompt for this person, this mood, and this moment.\n\nThe useful work is not adding question 4,381. It is making the choice feel effortless. Save the last slide and audit one screen today.\n\nWhere is your product making users choose too much?\n\n#BuildInPublic #IndieDev #ProductDesign #UXDesign #FounderJourney",
+    "threads": "4,380 questions sounds impressive. It can also be a burden.\n\nPeople do not want a database; they want the right prompt for this person, mood, and moment.\n\nWhere is your product making users choose too much?",
+    "x": "4,380 questions sounds impressive. It can also be a burden.\n\nPeople do not want a database. They want the right prompt for this person, mood, and moment."
+  }
+}

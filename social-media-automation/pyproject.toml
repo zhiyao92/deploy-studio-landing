@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "firebase-social-automation"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "google-cloud-firestore>=2.21,<3",
+  "google-cloud-storage>=2.19,<3",
+  "Pillow>=10,<13",
+  "requests>=2.33,<3",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8,<9",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools]
+packages = ["automation"]

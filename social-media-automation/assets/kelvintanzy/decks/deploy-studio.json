@@ -1,0 +1,51 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "own",
+  "lens": "mobile workflow design",
+  "analysisType": "builder case study",
+  "angle": "counterintuitive launch lesson",
+  "shareValue": "A mobile feature filter builders can use before copying desktop workflows.",
+  "caption": "Deploy Studio got approved by Apple today.\n\nI built it because the official App Store Connect app can tell you a build exists, but it still cannot finish the release from your phone. The last mile of shipping was still chained to a desk.\n\nThis one is for the odd little moments where the build is ready and you are not at your Mac.\n\n#buildinpublic #indiedev #iosdev #appstore",
+  "slides": [
+    {
+      "kind": "hook",
+      "text": "Apple approved the smaller version."
+    },
+    {
+      "kind": "beat",
+      "text": "Shipping an app still tied the final step to a desk.",
+      "kicker": "I could check a build from my phone. I still couldn't finish the release."
+    },
+    {
+      "kind": "beat",
+      "text": "My first instinct was to put everything on a smaller screen.",
+      "kicker": "That would have made a mobile copy of a desktop workflow."
+    },
+    {
+      "kind": "beat",
+      "text": "The breakthrough came when I stopped showing everything.",
+      "kicker": "Show the one thing blocking the release. Hide what doesn't change the decision."
+    },
+    {
+      "kind": "beat",
+      "text": "The product became smaller. And much more useful.",
+      "kicker": "Removing features was harder than building them."
+    },
+    {
+      "kind": "utility",
+      "text": "The one-hand product test",
+      "items": [
+        "Is this urgent away from a desk?",
+        "Does it change the next decision?",
+        "Can it finish in under a minute?"
+      ]
+    }
+  ],
+  "captions": {
+    "instagram": "Apple approved the smaller version.\n\nDeploy Studio began as an attempt to carry the whole release workflow onto a phone. That made the product crowded before it was useful.\n\nThe turning point was one question: what is blocking this release right now? Everything that did not help answer it became optional—or disappeared.\n\nA mobile tool does not need to be a desktop app squeezed into your hand. Send the last slide to someone shrinking a desktop workflow.\n\nWhat did your product improve after you removed something?\n\n#BuildInPublic #IndieDev #iOSDeveloper #ProductDesign #AppStore",
+    "threads": "Apple approved the smaller version.\n\nDeploy Studio improved when it stopped copying the whole desktop release workflow and focused on one question: what is blocking this release right now?\n\nWhat got better after you removed something?",
+    "x": "Apple approved the smaller version.\n\nDeploy Studio improved when it stopped copying the desktop and focused on one question: what is blocking this release right now?"
+  },
+  "app_name": "Deploy Studio",
+  "app_store_url": "https://apps.apple.com/my/app/deploy-studio/id6806610127"
+}

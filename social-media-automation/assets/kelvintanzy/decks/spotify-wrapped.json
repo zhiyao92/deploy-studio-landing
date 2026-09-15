@@ -1,0 +1,35 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "external",
+  "lens": "growth and sharing",
+  "analysisType": "product teardown",
+  "sourceQuality": "primary",
+  "reviewStatus": "verified",
+  "verifiedOn": "2026-09-10",
+  "factChecks": [
+    {"type": "fact", "claim": "Spotify's 2025 Wrapped included personalized stories, interactive moments, and share cards.", "sourceUrl": "https://newsroom.spotify.com/2025-12-03/2025-wrapped-user-experience/"},
+    {"type": "analysis", "claim": "A shareable result works best when it expresses something socially meaningful about the user."}
+  ],
+  "angle": "shareability teardown",
+  "shareValue": "A three-question test for turning private product data into an identity-safe story.",
+  "source": {
+    "publisher": "Spotify",
+    "title": "2025 Wrapped Is Here With More Layers, Stories, and Connection Than Ever Before",
+    "url": "https://newsroom.spotify.com/2025-12-03/2025-wrapped-user-experience/",
+    "published": "2025-12-03"
+  },
+  "caption": "Spotify turns private listening history into a story people choose to publish.",
+  "slides": [
+    {"kind": "hook", "text": "Spotify turns private history into public conversation."},
+    {"kind": "beat", "text": "Raw listening data is not naturally shareable.", "kicker": "Minutes, rankings, and repeated songs begin as private activity logs."},
+    {"kind": "beat", "text": "Wrapped gives the data a point of view.", "kicker": "It turns behavior into recognizable stories about taste, identity, and the year that passed."},
+    {"kind": "diagram", "text": "The sharing loop", "items": ["Collect meaningful behavior", "Find the personal pattern", "Package it as a story", "Make sharing effortless"]},
+    {"kind": "close", "text": "A share button cannot rescue a boring result.", "kicker": "People share what helps them say something about themselves."},
+    {"kind": "utility", "text": "Test whether a result is shareable", "items": ["Does it feel genuinely personal?", "Does it say something socially interesting?", "Can users control what becomes public?"]}
+  ],
+  "captions": {
+    "instagram": "Spotify Wrapped does more than summarize listening. It gives private behavior a story people can use in public.\n\nSpotify's 2025 product notes describe personalized data stories, interactive moments, and share cards throughout the experience. The distribution is designed into the result—not added after it.\n\nThe important constraint: personal must not become invasive. A useful share artifact feels specific, socially interesting, and controlled by the user. Send the last slide to someone designing a results screen.\n\nWhat result from your product would someone be proud to share?\n\nSource: Spotify, 2025 Wrapped user experience (2025)\nhttps://newsroom.spotify.com/2025-12-03/2025-wrapped-user-experience/\n\n#ProductDesign #SpotifyWrapped #GrowthDesign #UXDesign #IndieDev",
+    "threads": "Spotify Wrapped turns private behavior into a public story.\n\nThe distribution is designed into the result: find a personal pattern, package it as identity, and make sharing easy—but controlled by the user.\n\nSource: https://newsroom.spotify.com/2025-12-03/2025-wrapped-user-experience/",
+    "x": "Spotify Wrapped turns private behavior into a public story.\n\nA share button is not the strategy. The result itself must feel personal, socially interesting, and safe to reveal."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "external",
+  "lens": "information architecture",
+  "analysisType": "product teardown",
+  "sourceQuality": "primary",
+  "reviewStatus": "verified",
+  "verifiedOn": "2026-09-10",
+  "factChecks": [
+    {"type": "fact", "claim": "Airbnb introduced categories organized around home style, location, and nearby activities.", "sourceUrl": "https://news.airbnb.com/en-au/a-new-airbnb-for-a-new-world-of-travel-launching-the-biggest-change-to-the-platform-in-a-decade"},
+    {"type": "analysis", "claim": "Categories help people recognize possibilities before they can name a destination."}
+  ],
+  "angle": "discovery teardown",
+  "shareValue": "A three-question test for helping users discover options they cannot name yet.",
+  "source": {
+    "publisher": "Airbnb",
+    "title": "A new Airbnb for a new world of travel",
+    "url": "https://news.airbnb.com/en-au/a-new-airbnb-for-a-new-world-of-travel-launching-the-biggest-change-to-the-platform-in-a-decade",
+    "published": "2022-05-11"
+  },
+  "caption": "Airbnb Categories addresses a search problem that begins before the search box.",
+  "slides": [
+    {"kind": "hook", "text": "Airbnb designed search for people who cannot name the destination."},
+    {"kind": "beat", "text": "A search box assumes the answer is already known.", "kicker": "But a traveler may know the feeling—beachfront, cabin, design—before knowing the city."},
+    {"kind": "beat", "text": "Categories changed the starting question.", "kicker": "Instead of only asking where, Airbnb organized homes around style, location, and nearby activities."},
+    {"kind": "diagram", "text": "Two discovery modes", "items": ["Known intent: search for the answer", "Partial intent: browse recognizable qualities", "New possibility: discover what was hard to name"]},
+    {"kind": "close", "text": "Sometimes users do not need a better search box.", "kicker": "They need a vocabulary for possibilities they have not discovered yet."},
+    {"kind": "utility", "text": "Audit a discovery problem", "items": ["What can users describe but not name?", "Which qualities make options recognizable?", "Can browsing teach the vocabulary?"]}
+  ],
+  "captions": {
+    "instagram": "Airbnb Categories addresses a problem that starts before typing: sometimes people know the kind of experience they want, but not the destination to search for.\n\nAirbnb's launch described categories organized around a home's style, location, or nearby activities. That turns search from pure retrieval into guided discovery.\n\nThe broader product lesson: when users cannot name the answer, help them recognize useful qualities first. Save the final slide for your next navigation or marketplace review.\n\nWhere does your product expect users to know too much before they begin?\n\nSource: Airbnb, A new Airbnb for a new world of travel (2022)\nhttps://news.airbnb.com/en-au/a-new-airbnb-for-a-new-world-of-travel-launching-the-biggest-change-to-the-platform-in-a-decade\n\n#ProductDesign #Airbnb #DiscoveryDesign #UXDesign #IndieDev",
+    "threads": "Airbnb Categories addresses a problem before the search box: people may know the experience they want, but not the destination to type.\n\nWhen users cannot name the answer, help them recognize useful qualities first.\n\nSource: https://news.airbnb.com/en-au/a-new-airbnb-for-a-new-world-of-travel-launching-the-biggest-change-to-the-platform-in-a-decade",
+    "x": "Airbnb designed discovery for people who know the experience they want—but not the destination to type.\n\nWhen users cannot name the answer, help them recognize useful qualities first."
+  }
+}

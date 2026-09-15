@@ -1,0 +1,84 @@
+name: LDS Quotes Daily Agent
+
+# Trigger: Daily at 9:00 AM UTC, or manually from Actions tab
+# (Daily cadence: content volume is the acquisition bottleneck)
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Run in dry-run mode (don't post to Slack)"
+        required: false
+        default: "false"
+
+jobs:
+  generate_and_approve:
+    # Self-hosted runner on Kelvin's Mac: doesn't consume GitHub-hosted minutes,
+    # so the daily post keeps running even when the plan's minutes are exhausted.
+    # If the Mac is asleep at 9:00 UTC the job queues and runs when it wakes.
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # actions/setup-python can't work here: GitHub's prebuilt macOS Pythons are
+      # compiled for the hosted-runner path /Users/runner. Use the machine's
+      # Homebrew python3.11 in a venv instead; pip's local wheel cache keeps
+      # installs fast between runs.
+      - name: Install dependencies
+        run: |
+          python3.11 -m venv .venv
+          .venv/bin/pip install --quiet -r requirements.txt
+
+      - name: Run LDS Quotes Agent
+        env:
+          # LLM Configuration (REQUIRED)
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LLM_MODEL: "claude-opus-4-8"
+
+          # Slack Configuration (REQUIRED)
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          # #ops-automation
+          SLACK_APPROVAL_CHANNEL: "C0BEGGSV4N6"
+
+          # Buffer Configuration (REQUIRED for auto-publishing).
+          # Channel IDs are identifiers, not secrets — one per social account.
+          BUFFER_API_TOKEN: ${{ secrets.BUFFER_API_TOKEN }}
+          BUFFER_ORGANIZATION_ID: "6a5f65314ba096368ade98dd"
+          BUFFER_INSTAGRAM_CHANNEL_ID: "6a5f6583e2638b94d7a9610f"
+          BUFFER_THREADS_CHANNEL_ID: "6a5f65d7e2638b94d7a9626f"
+          BUFFER_FACEBOOK_CHANNEL_ID: "6a5f6760e2638b94d7a96926"
+
+          # GitHub image hosting (REQUIRED — Buffer needs a public image URL).
+          # Needs a PAT with `repo` scope that can write to the images repo;
+          # the built-in Actions token can't push to a different repository.
+          # Secret names can't start with GITHUB_, hence IMAGE_REPO_TOKEN.
+          GITHUB_TOKEN: ${{ secrets.IMAGE_REPO_TOKEN }}
+          GITHUB_USERNAME: "zhiyao92"
+          GITHUB_REPO: "lds-quotes-images"
+
+          # App Store campaign attribution (optional)
+          APPLE_PROVIDER_TOKEN: ${{ secrets.APPLE_PROVIDER_TOKEN }}
+
+          # Runtime Control
+          DEBUG: "false"
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+
+          # GitHub Context (for logging)
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          GITHUB_SHA: ${{ github.sha }}
+
+        run: .venv/bin/python agent.py
+
+      - name: Upload draft artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quote-drafts
+          path: drafts/
+          retention-days: 30
+

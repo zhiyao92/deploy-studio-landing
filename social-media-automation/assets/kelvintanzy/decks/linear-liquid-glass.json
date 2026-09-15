@@ -1,0 +1,107 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "external",
+  "lens": "product and design strategy",
+  "analysisType": "product autopsy",
+  "sourceQuality": "primary",
+  "reviewStatus": "verified",
+  "verifiedOn": "2026-09-10",
+  "angle": "why Linear recreated Liquid Glass instead of adopting the system implementation",
+  "shareValue": "A decision framework for knowing when a custom interface system earns its engineering cost.",
+  "problemSolutionRequired": true,
+  "problemStatement": "Linear needed customizable mobile navigation, control over the material, and support extending beyond the newest system APIs.",
+  "solutionStatement": "Linear recreated the parts of Liquid Glass that served its product while owning the navigation and material behavior.",
+  "source": {
+    "publisher": "Linear",
+    "title": "A Linear spin on Liquid Glass",
+    "url": "https://linear.app/now/linear-liquid-glass",
+    "published": "2025-10-21"
+  },
+  "factChecks": [
+    {
+      "type": "fact",
+      "claim": "Linear says Apple’s APIs did not provide the control needed for its customizable navigation and that its custom approach could support users including those on iOS 18.",
+      "sourceUrl": "https://linear.app/now/linear-liquid-glass"
+    },
+    {
+      "type": "fact",
+      "claim": "Linear says its iOS team had two engineers and describes recreating the material as the harder path.",
+      "sourceUrl": "https://linear.app/now/linear-liquid-glass"
+    },
+    {
+      "type": "fact",
+      "claim": "Linear describes GPU-calculated moving light, variable edge blur, accessibility adaptations, and intentionally omitting refraction for readability.",
+      "sourceUrl": "https://linear.app/now/linear-liquid-glass"
+    },
+    {
+      "type": "analysis",
+      "claim": "A custom design system earns its cost only when system components prevent a product-critical behavior or experience."
+    }
+  ],
+  "slides": [
+    {
+      "kind": "hook",
+      "text": "Linear rebuilt Liquid Glass instead of taking the easier path."
+    },
+    {
+      "kind": "diagram",
+      "role": "problem",
+      "eyebrow": "THE PRODUCT PROBLEM",
+      "text": "The visual style was not the real constraint",
+      "items": [
+        "Navigation needed to adapt by role",
+        "The tab bar needed more flexibility",
+        "The experience needed broader OS support"
+      ],
+      "sourceLabel": "SOURCE · LINEAR · OCTOBER 2025"
+    },
+    {
+      "kind": "diagram",
+      "role": "solution",
+      "eyebrow": "LINEAR’S SOLUTION",
+      "text": "Recreate the useful principles—and own the behavior",
+      "items": [
+        "Build a custom glass material",
+        "Make navigation expandable",
+        "Keep control of future customization"
+      ]
+    },
+    {
+      "kind": "utility",
+      "text": "What Linear implemented",
+      "items": [
+        "GPU-calculated moving light",
+        "Variable blur near content edges",
+        "Higher-contrast accessibility behavior"
+      ],
+      "sourceLabel": "DOCUMENTED BY LINEAR"
+    },
+    {
+      "kind": "beat",
+      "eyebrow": "THE DELIBERATE OMISSION",
+      "text": "They left out refraction.",
+      "kicker": "Linear says it could reduce readability in dense professional interfaces. Copying every effect would have weakened the product goal.",
+      "sourceLabel": "SOURCE · LINEAR"
+    },
+    {
+      "kind": "beat",
+      "eyebrow": "THE TRADE-OFF",
+      "text": "More control required the harder implementation.",
+      "kicker": "Linear disclosed a two-engineer iOS team. Custom infrastructure also creates something the team must continue maintaining. The maintenance point is my analysis."
+    },
+    {
+      "kind": "utility",
+      "text": "When should you build custom?",
+      "items": [
+        "Is the missing behavior product-critical?",
+        "Can users feel the improvement?",
+        "Can the team maintain it long-term?"
+      ]
+    }
+  ],
+  "captions": {
+    "instagram": "Linear rebuilt Liquid Glass instead of taking the easier path.\n\nThe company’s real problem was not visual fashion. It needed mobile navigation that could adapt to different roles, expand beyond a conventional tab bar, and remain available beyond the newest system implementation. Linear says Apple’s APIs did not provide the control that product required.\n\nIts solution was selective: recreate the material, model moving light on the GPU, add variable edge blur, preserve higher-contrast behavior—and omit refraction because it could hurt readability in a dense professional interface.\n\nThe trade-off is ownership. Linear disclosed a two-engineer iOS team and called this the harder path. My takeaway: build custom only when the missing behavior is product-critical and your team can maintain the result.\n\nWhich system component would you replace only if the product truly demanded it?\n\nSource: Linear, A Linear spin on Liquid Glass\nhttps://linear.app/now/linear-liquid-glass\n\n#ProductDesign #MobileDesign #iOSDevelopment #DesignSystems #ProductStrategy",
+    "threads": "Linear recreated Liquid Glass because the product needed more control over customizable navigation and broader OS support. It copied useful principles, omitted refraction for readability, and accepted the harder implementation.\n\nWhen does a custom component earn that cost?\n\nSource: https://linear.app/now/linear-liquid-glass",
+    "x": "Linear rebuilt Liquid Glass instead of adopting it wholesale.\n\nThe lesson: copy the principle, not every effect. Custom UI earns its cost only when system behavior blocks something product-critical.\n\nSource: https://linear.app/now/linear-liquid-glass"
+  }
+}

@@ -1,0 +1,6 @@
+# Build on the already-validated renderer/runtime; replace orchestration only.
+FROM us-central1-docker.pkg.dev/social-media-automation-5c9db/cloud-run-source-deploy/lds-quotes-publisher@sha256:1bd8e6c20d7c6035498232e556113defe9865482dda1ac9003686ed74ef4259f
+COPY multiformat.py /app/multiformat.py
+COPY release_media.py /app/release_media.py
+COPY nature_source.py /app/nature_source.py
+RUN pip install --no-cache-dir 'google-cloud-storage>=2.19,<3'

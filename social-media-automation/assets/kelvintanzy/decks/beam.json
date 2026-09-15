@@ -1,0 +1,54 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "own",
+  "lens": "behavior and learning design",
+  "analysisType": "builder case study",
+  "angle": "wrong problem",
+  "shareValue": "A three-question test for designing around hesitation before a feature.",
+  "caption": "Named it after my wife, which turned out to be an excellent commitment device.\n\nGoing back to Thailand every year and still reaching for English got old. This is my attempt at fixing that — the culture as much as the language.",
+  "slides": [
+    {
+      "kind": "hook",
+      "text": "Vocabulary wasn't why I froze in Thailand."
+    },
+    {
+      "kind": "beat",
+      "text": "I go back to Thailand at least once a year.",
+      "kicker": "Every year I tell myself this is the year I'll learn. Every year I don't."
+    },
+    {
+      "kind": "beat",
+      "text": "Thai is tonal.",
+      "kicker": "The same syllable, said five different ways, is five different words."
+    },
+    {
+      "kind": "close",
+      "text": "Most courses teach you the vocabulary.",
+      "kicker": "Then quietly skip the part where you say it out loud to someone who isn't grading you kindly."
+    },
+    {
+      "kind": "diagram",
+      "text": "The practice loop changed",
+      "items": ["Hear one useful phrase", "Understand when it fits", "Say it before the real moment"]
+    },
+    {
+      "kind": "beat",
+      "text": "Emergency phrases have no ads and no paywall.",
+      "kicker": "Urgent help should not depend on whether someone has paid."
+    },
+    {
+      "kind": "utility",
+      "text": "The confidence-before-feature test",
+      "items": [
+        "What makes people hesitate?",
+        "What can they practise safely?",
+        "What tiny win gets them moving?"
+      ]
+    }
+  ],
+  "captions": {
+    "instagram": "Vocabulary wasn't why I froze in Thailand.\n\nThe difficult part was the tiny real-life moment: greeting family, ordering food, or saying one sentence without worrying that the tone changed the meaning.\n\nThat changed Beam from a list of lessons into practice for situations. Hear it. Understand the context. Say it before the moment arrives.\n\nSometimes the product problem begins one step before the feature. Keep the last slide for your next feature review.\n\nWhat moment does your product help people feel ready for?\n\n#BuildInPublic #IndieDev #LearnThai #LanguageLearning #ProductDesign",
+    "threads": "Vocabulary wasn't why I froze in Thailand.\n\nThe real problem was confidence in tiny moments. That changed Beam from lessons into practice for situations.\n\nWhat moment does your product help people feel ready for?",
+    "x": "Vocabulary wasn't why I froze in Thailand.\n\nThe real problem was confidence in tiny moments. So Beam practices situations, not just word lists."
+  }
+}

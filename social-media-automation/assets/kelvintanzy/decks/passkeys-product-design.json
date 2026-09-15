@@ -1,0 +1,48 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "external",
+  "lens": "security and product design",
+  "analysisType": "technology benefit teardown",
+  "sourceQuality": "primary",
+  "reviewStatus": "verified",
+  "verifiedOn": "2026-09-10",
+  "factChecks": [
+    {"type": "fact", "claim": "Passkeys use cryptographic key pairs; servers retain public keys, and credentials are linked to the app or website for which they were created.", "sourceUrl": "https://developer.apple.com/passkeys/"},
+    {"type": "analysis", "claim": "The best security feature can also remove product friction rather than merely adding warnings."}
+  ],
+  "angle": "security that removes a user task",
+  "shareValue": "A three-question test for whether a security change also improves the product experience.",
+  "problemSolutionRequired": true,
+  "problemStatement": "Passwords make users create, remember, protect, and repeatedly enter a reusable secret.",
+  "solutionStatement": "Passkeys replace the reusable password with cryptographic key pairs linked to the real app or website.",
+  "claudeEditorial": true,
+  "source": {
+    "publisher": "Apple",
+    "title": "Passkeys overview",
+    "url": "https://developer.apple.com/passkeys/",
+    "published": "Current overview, accessed 2026-09-10"
+  },
+  "editorialBrief": {
+    "verifiedFacts": [
+      "Passkeys replace passwords with cryptographic key pairs based on FIDO Alliance and W3C standards.",
+      "Servers retain public keys rather than password secrets.",
+      "Passkeys are linked to the app or website for which they were created, making them resistant to phishing.",
+      "Apple supports sign-in with AutoFill and Face ID or Touch ID."
+    ],
+    "analysis": "Passkeys are an example of security and usability improving together because the user no longer has to create, remember, or type a password.",
+    "doNotClaim": ["Do not call any authentication system unhackable.", "Do not imply passkeys remove all account-recovery or rollout work."]
+  },
+  "slides": [
+    {"kind": "hook", "text": "The best security upgrade removes a job from the user."},
+    {"kind": "beat", "role": "problem", "eyebrow": "THE PROBLEM", "text": "Passwords make security the user’s job.", "kicker": "People must create, remember, type, and protect a reusable secret."},
+    {"kind": "beat", "role": "solution", "eyebrow": "THE SOLUTION", "text": "Passkeys change the credential itself.", "kicker": "Apple explains that passkeys use cryptographic key pairs and servers retain public keys."},
+    {"kind": "diagram", "text": "The experience and security move together", "items": ["Authenticate with the device", "No reusable password is sent", "Credential stays linked to the real app or site"]},
+    {"kind": "close", "text": "Security does not always have to feel like more friction.", "kicker": "A strong product change can reduce what users must understand while improving the system underneath."},
+    {"kind": "utility", "text": "Audit a security feature", "items": ["What burden moves away from the user?", "What new recovery path is required?", "Can rollout coexist with the old method?"]}
+  ],
+  "captions": {
+    "instagram": "The best security upgrade can remove a job from the user.\n\nApple explains that passkeys replace passwords with cryptographic key pairs. Servers retain public keys, and a passkey is linked to the app or website for which it was created—making it resistant to phishing.\n\nThe product lesson is bigger than authentication: better security does not always require more user effort. But rollout still needs a clear recovery path and a transition for people using passwords. Save the final slide for your next account-flow review.\n\nWhich security step in your product could become both safer and easier?\n\nSource: Apple Developer, Passkeys overview\nhttps://developer.apple.com/passkeys/\n\n#Passkeys #Cybersecurity #ProductDesign #UXDesign #AppleDeveloper",
+    "threads": "Passkeys are a useful product lesson: better security can remove work from the user. Cryptographic key pairs replace the reusable password, while the credential stays linked to the real app or site.\n\nWhat security step could your product make safer and easier?\n\nSource: https://developer.apple.com/passkeys/",
+    "x": "The best security upgrade removes a job from the user.\n\nPasskeys replace a reusable password with cryptographic key pairs and bind the credential to the real app or site. Safer can also be easier."
+  }
+}

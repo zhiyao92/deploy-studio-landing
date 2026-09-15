@@ -1,0 +1,97 @@
+{
+  "bondify": {
+    "brand": "bondify",
+    "bg": "#F4F0E9",
+    "ink": "#242321",
+    "accent": "#95604E",
+    "slides": [
+      [
+        "When she says\n“I’m exhausted.”",
+        "5 replies to try when your partner\nhas had a hard day."
+      ],
+      [
+        "“Do you want me\nto listen, or help\nyou think it through?”",
+        "Ask what kind of support she wants\nbefore offering a solution."
+      ],
+      [
+        "“What can I take\noff your plate\ntonight?”",
+        "Offer something specific: dinner,\nthe dishes, or the next errand."
+      ],
+      [
+        "“You don’t have to\nexplain it perfectly.”",
+        "Leave room for a pause.\nLet her find her words."
+      ],
+      [
+        "“I noticed how\nmuch you handled\ntoday.”",
+        "Name the effort you actually saw.\nKeep the appreciation honest."
+      ],
+      [
+        "“Want company,\nor a little quiet?”",
+        "Let her choose.\nRespect the answer."
+      ]
+    ],
+    "caption": "When your partner has had a long day, try asking what would help.\n\nThese are conversation ideas, not a formula. Use the words that sound like you, and listen to the answer.\n\nSave this for the evening when you want to help but cannot find the words.\n\n#CouplesCommunication #HealthyRelationships #Marriage #RelationshipAdvice #EmotionalConnection"
+  },
+  "lds-conference": {
+    "brand": "LDS Conferences",
+    "bg": "#F3F1EA",
+    "ink": "#243A3A",
+    "accent": "#8A7443",
+    "slides": [
+      [
+        "A full calendar.\nBut room for\nwhat matters?",
+        "A study reflection on\nGood, Better, Best."
+      ],
+      [
+        "Good things can\ncompete for the\nsame hour.",
+        "Elder Oaks invites us to consider which\nchoices deepen faith and family connection."
+      ],
+      [
+        "What deserves\nyour best attention\nthis week?",
+        "Our reflection prompt:\nName one relationship or spiritual practice."
+      ],
+      [
+        "Choose one thing.\nMake room for it.",
+        "Our application idea:\nSet aside a specific time for that priority."
+      ],
+      [
+        "Read. Reflect.\nThen make\none choice.",
+        "Good, Better, Best\nDallin H. Oaks · October 2007\n\nStudy notes and application, not direct quotations."
+      ]
+    ],
+    "caption": "A full schedule can still leave little time for your priorities.\n\nIn Good, Better, Best, Elder Dallin H. Oaks asks us to consider how our choices strengthen faith in Jesus Christ and our families.\n\nOur study prompt: what will you make room for this week?\n\nSource: Good, Better, Best — October 2007 General Conference.\nhttps://www.churchofjesuschrist.org/study/general-conference/2007/10/good-better-best?lang=eng\n\nThese slides include paraphrase and our own application prompts, not direct quotations. Independent study page.\n\n#GeneralConference #ConferenceStudy #LatterDaySaints #FaithInChrist #ComeUntoChrist"
+  },
+  "kelvintanzy": {
+    "brand": "@KelvinTanZY",
+    "bg": "#F5F5F1",
+    "ink": "#202324",
+    "accent": "#507065",
+    "slides": [
+      [
+        "Does your app\nneed that\nextra feature?",
+        "A small checklist for\nyour next build decision."
+      ],
+      [
+        "Name the job\nbefore the feature.",
+        "Write one sentence:\n“This helps someone do ___.”"
+      ],
+      [
+        "Picture the\nmoment of use.",
+        "Where are they?\nWhat are they trying to finish?"
+      ],
+      [
+        "Find the\nsmallest useful\nversion.",
+        "What can you remove while still\nletting someone finish that job?"
+      ],
+      [
+        "Put it in front\nof someone.",
+        "Ask them to try the task.\nNotice where they hesitate."
+      ],
+      [
+        "Keep the feature\nthat earns\nits place.",
+        "Save this checklist for\nyour next scope decision."
+      ]
+    ],
+    "caption": "Before adding another feature, give it one clear job.\n\nWho is it for? When will they use it? What should they be able to finish?\n\nThen put the smallest useful version in front of someone and watch where they get stuck.\n\nWhich feature are you deciding whether to build?\n\n#BuildInPublic #IndieDev #ProductDesign #AppDevelopment #UXDesign"
+  }
+}

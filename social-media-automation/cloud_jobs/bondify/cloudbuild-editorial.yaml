@@ -1,0 +1,5 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/social-media-automation-5c9db/cloud-run-source-deploy/bondify-publisher:editorial-v1', '.']
+images:
+  - us-central1-docker.pkg.dev/social-media-automation-5c9db/cloud-run-source-deploy/bondify-publisher:editorial-v1

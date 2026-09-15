@@ -1,0 +1,80 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "own",
+  "lens": "product focus",
+  "analysisType": "feature autopsy",
+  "angle": "feature autopsy",
+  "shareValue": "A survival test for deciding which feature deserves to remain.",
+  "problemSolutionRequired": true,
+  "problemStatement": "A technically working health tracker still failed to solve the decision its creator repeatedly faced.",
+  "solutionStatement": "Remove the unused feature set and keep the small food-decision loop that gets used in real life.",
+  "caption": "Five months building a health tracker I never opened once.\n\nThe product problem was never \"can I store more health data?\" It was \"can I make one small decision easier when I'm tired, hungry, and not thinking clearly?\"\n\nThe only part I actually used was the wheel near the bottom that picked where to eat, so I deleted the rest. That was the builder's journey here: a lot of work, a narrower product, and a sharper answer to a real problem.\n\n#buildinpublic #indiedev #iosdev #swiftui",
+  "slides": [
+    {
+      "kind": "hook",
+      "text": "Five months of work survived as one tiny button."
+    },
+    {
+      "kind": "list",
+      "text": "It started as a health tracker.",
+      "items": [
+        "Body map",
+        "Habit rings",
+        "HealthKit sync",
+        "Achievements",
+        "Age-based plan"
+      ],
+      "strike": false
+    },
+    {
+      "kind": "beat",
+      "role": "problem",
+      "eyebrow": "THE PROBLEM",
+      "text": "Everything worked—but I never reached for it.",
+      "kicker": "The bug was product fit, not code quality."
+    },
+    {
+      "kind": "beat",
+      "text": "So I asked a more uncomfortable question.",
+      "kicker": "What decision am I trying to make faster?"
+    },
+    {
+      "kind": "diagram",
+      "role": "solution",
+      "eyebrow": "THE SOLUTION",
+      "text": "Keep the loop that gets used",
+      "items": ["Feeling tired and hungry", "Spin once instead of debating", "Make the decision and move on"]
+    },
+    {
+      "kind": "list",
+      "text": "So I deleted everything else.",
+      "items": [
+        "Body map",
+        "Habit rings",
+        "HealthKit sync",
+        "Achievements",
+        "Age-based plan"
+      ],
+      "strike": true
+    },
+    {
+      "kind": "close",
+      "text": "The feature you actually use is the product.",
+      "kicker": "Everything else was support work. Useful, maybe. But not the reason the app existed."
+    },
+    {
+      "kind": "utility",
+      "text": "Run the feature survival test",
+      "items": [
+        "Which feature gets used without reminders?",
+        "Which one solves a frequent decision?",
+        "What would nobody miss if it vanished?"
+      ]
+    }
+  ],
+  "captions": {
+    "instagram": "Five months of code. One feature survived.\n\nThe health tracker worked—but I never reached for it. The food decision wheel was different: it solved a small, frequent problem when I was tired and hungry.\n\nSo the big app became the tiny feature. Usage made the decision clearer than pride ever could. Keep the survival test for the next time your roadmap feels crowded.\n\nWhich feature would your users miss if everything else disappeared?\n\n#BuildInPublic #IndieDev #ProductDesign #iOSDev #FounderJourney",
+    "threads": "Five months of code. One feature survived.\n\nThe health tracker worked, but the food decision wheel was the only part I actually used. So the big app became the tiny feature.\n\nWhich feature would your users miss?",
+    "x": "Five months of code. One feature survived.\n\nThe health tracker worked. I never used it. The food decision wheel solved a real, frequent problem.\n\nSo I deleted the rest."
+  }
+}

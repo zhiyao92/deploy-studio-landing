@@ -1,0 +1,59 @@
+name: Bondify Daily Post (Workflow 3)
+
+on:
+  schedule:
+    # Run daily at 10 AM UTC (adjust timezone as needed)
+    - cron: '0 10 * * *'
+
+  # Allow manual triggering from GitHub UI
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: [self-hosted, macOS]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          python3 -m venv .venv
+          .venv/bin/pip install -r requirements.txt
+
+      - name: Run Bondify Workflow 3
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          # #ops-automation by ID: resolving a #name needs the channels:read
+          # scope on the bot token, an ID needs nothing.
+          SLACK_APPROVAL_CHANNEL: 'C0BEGGSV4N6'
+          BUFFER_ACCESS_TOKEN: ${{ secrets.BUFFER_ACCESS_TOKEN }}
+          BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_UPLOAD_PRESET: ${{ secrets.CLOUDINARY_UPLOAD_PRESET }}
+          BONDIFY_APP_STORE_URL: ${{ secrets.BONDIFY_APP_STORE_URL }}
+          LLM_MODEL: 'claude-opus-4-8'
+          # Decks eligible for auto-posting (comma-separated). Add "spicy" to include it.
+          BONDIFY_POST_MODES: 'chill,deep,lovers,friends,family,first_date,party,coworker'
+          AUTO_PUBLISH_INSTAGRAM: 'true'
+          REQUIRE_SLACK_APPROVAL: 'false'
+          DEBUG: 'false'
+          DRY_RUN: 'false'
+        run: .venv/bin/python3 bondify_workflow3_agent.py
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workflow-logs
+          path: logs/
+          retention-days: 7
+
+      - name: Upload drafts on success
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: published-drafts
+          path: drafts/
+          retention-days: 30

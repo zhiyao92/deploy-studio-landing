@@ -1,0 +1,39 @@
+{
+  "handle": "@KelvinTanZY",
+  "slides": [
+    {
+      "kind": "hook",
+      "text": "Apple approved my app. The breakthrough was deciding what not to build."
+    },
+    {
+      "kind": "beat",
+      "text": "I built Deploy Studio because shipping an app still tied me to my desk.",
+      "kicker": "I could check a build from my phone. I still couldn't finish the release."
+    },
+    {
+      "kind": "beat",
+      "text": "My first instinct was to put everything on a smaller screen.",
+      "kicker": "That would have made a mobile copy of a desktop workflow."
+    },
+    {
+      "kind": "beat",
+      "text": "The breakthrough came when I stopped showing everything.",
+      "kicker": "Show the one thing blocking the release. Hide what doesn't change the decision."
+    },
+    {
+      "kind": "beat",
+      "text": "The product became smaller. And much more useful.",
+      "kicker": "Removing features was harder than building them."
+    },
+    {
+      "kind": "close",
+      "text": "Apple's approval ended one chapter. The first real user starts the next.",
+      "kicker": "I'm sharing what happens from here."
+    }
+  ],
+  "captions": {
+    "instagram": "Apple approved Deploy Studio today. 🎉\n\nBut the breakthrough?\nDeciding what not to build.\n\nI started with a simple frustration:\nI could check an App Store release from my phone, but I still needed my Mac to finish it.\n\nMy first instinct was to bring everything to mobile.\n\nThat was the wrong approach.\n\nSo I removed anything that didn't answer one question:\nWhat is blocking this release right now?\n\nThe product became smaller.\nAnd much more useful.\n\nApple's approval closes one chapter.\nThe first real users begin the next.\n\nWhat feature have you removed that made your product better?\n\n#BuildInPublic #IndieDev #iOSDeveloper #FounderJourney #ProductDesign",
+    "threads": "Apple approved my app. The breakthrough was deciding what not to build.\n\nA mobile product should answer the one important question you have away from your desk—not copy the entire desktop workflow.\n\nWhat have you removed that made your product better?",
+    "x": "Apple approved my app.\n\nThe breakthrough was deciding what not to build.\n\nA mobile product shouldn't copy a desktop workflow. It should answer the one important question you have away from your desk."
+  }
+}

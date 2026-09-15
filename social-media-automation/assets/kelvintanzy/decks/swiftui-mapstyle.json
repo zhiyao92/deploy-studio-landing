@@ -1,0 +1,72 @@
+{
+  "handle": "@KelvinTanZY",
+  "scope": "external",
+  "lens": "SwiftUI implementation",
+  "analysisType": "code and visual comparison",
+  "codeOrigin": "apple-documentation",
+  "codeVerification": "swiftc-typechecked",
+  "codeVerifiedOn": "2026-09-10",
+  "sourceQuality": "primary",
+  "reviewStatus": "verified",
+  "verifiedOn": "2026-09-10",
+  "factChecks": [
+    {"type": "fact", "claim": "MapKit exposes standard and imagery MapStyle values with elevation options.", "sourceUrl": "https://developer.apple.com/documentation/mapkit/mapstyle"},
+    {"type": "analysis", "claim": "The best map style depends on what the user must notice and decide."}
+  ],
+  "angle": "one modifier changes the map's product role",
+  "shareValue": "A practical MapKit snippet plus a decision test for choosing a map style.",
+  "problemSolutionRequired": true,
+  "problemStatement": "A map style chosen without considering the user's task can emphasize the wrong information.",
+  "solutionStatement": "Apply a documented MapStyle deliberately, then choose standard or imagery based on what the user must notice.",
+  "claudeEditorial": true,
+  "source": {
+    "publisher": "Apple",
+    "title": "MapStyle",
+    "url": "https://developer.apple.com/documentation/mapkit/mapstyle",
+    "published": "Current documentation, accessed 2026-09-10"
+  },
+  "editorialBrief": {
+    "verifiedFacts": [
+      "SwiftUI Map supports the mapStyle modifier.",
+      "MapKit provides standard and imagery map styles.",
+      "The example uses realistic elevation with each style."
+    ],
+    "analysis": "Standard emphasizes map information; imagery can make physical place and terrain more visually prominent. The right choice depends on the user's task.",
+    "doNotClaim": [
+      "Do not claim that one style is universally better.",
+      "Do not claim performance differences without a separate source.",
+      "Do not state OS availability unless it is verified in the source."
+    ]
+  },
+  "caption": "A small SwiftUI MapKit modifier can change what the interface helps people notice.",
+  "slides": [
+    {"kind": "hook", "text": "One SwiftUI modifier can change what your map is for."},
+    {"kind": "beat", "role": "problem", "eyebrow": "THE PROBLEM", "text": "A map can emphasize the wrong information.", "kicker": "Some tasks need labels and roads. Others need the physical character of a place."},
+    {
+      "kind": "code",
+      "role": "solution",
+      "text": "The solution: apply the style to Map",
+      "code": "import MapKit\nimport SwiftUI\n\nstruct MapDemo: View {\n  var body: some View {\n    Map()\n      .mapStyle(.imagery(\n        elevation: .realistic\n      ))\n  }\n}",
+      "explanation": "Add mapStyle to the Map. This usage switches its presentation to satellite imagery with realistic elevation.",
+      "sourceLabel": "USAGE VERIFIED WITH SWIFTC · API SOURCE: APPLE",
+      "previews": [
+        {"label": "VISUAL EFFECT · IMAGERY", "image": "swiftui-mapstyle-imagery.png"}
+      ]
+    },
+    {
+      "kind": "comparison",
+      "text": "Same Map. Different visual priority.",
+      "options": [
+        {"label": "INFORMATION FIRST", "code": "let style: MapStyle =\n  .standard(elevation: .realistic)", "result": "Choose this when labels and orientation lead the task."},
+        {"label": "PLACE FIRST", "code": "let style: MapStyle =\n  .imagery(elevation: .realistic)", "result": "Choose this when the physical place carries meaning."}
+      ]
+    },
+    {"kind": "close", "text": "The API choice is also a product choice.", "kicker": "Choose the style that makes the user's next decision easier—not the one that merely looks more impressive."},
+    {"kind": "utility", "text": "Choose a map style intentionally", "items": ["What must the user notice first?", "Are labels or physical place more important?", "Does the style clarify the next action?"]}
+  ],
+  "captions": {
+    "instagram": "One modifier can change what a SwiftUI map helps people notice.\n\nUse `.standard(elevation: .realistic)` when orientation, roads, and labels lead the task. Use `.imagery(elevation: .realistic)` when the physical character of the place matters more. Neither is universally better—the interface should follow the decision the user needs to make.\n\nThe snippet is short. The product decision behind it is not. Save the final slide for your next MapKit screen.\n\nWhich style fits the map you are building—and why?\n\nSource: Apple Developer Documentation, MapStyle\nhttps://developer.apple.com/documentation/mapkit/mapstyle\n\n#SwiftUI #MapKit #iOSDevelopment #ProductDesign #Swift",
+    "threads": "One `.mapStyle()` modifier can change what a SwiftUI map helps people notice. Standard can prioritize orientation; imagery can make the physical place more prominent.\n\nWhich one matches your user's task?\n\nSource: https://developer.apple.com/documentation/mapkit/mapstyle",
+    "x": "A SwiftUI API choice is often a product choice.\n\n`.standard` can prioritize orientation. `.imagery` can make the physical place more prominent.\n\nWhich one matches your user's task?"
+  }
+}

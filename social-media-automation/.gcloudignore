@@ -1,0 +1,13 @@
+**
+!Dockerfile
+!pyproject.toml
+!README.md
+!automation/
+!automation/**
+!assets/
+!assets/**
+!cloud_jobs/
+!cloud_jobs/beam/
+!cloud_jobs/beam/**
+!cloud_jobs/conference/
+!cloud_jobs/conference/**

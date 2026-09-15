@@ -1,0 +1,8 @@
+.git
+.firebase
+.venv
+*.egg-info
+__pycache__
+tests
+*-debug.log
+.env*
