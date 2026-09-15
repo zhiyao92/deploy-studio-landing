@@ -156,7 +156,9 @@ def cards(kind,p,folder):
                 write(im,phrase['meaning'],(75,850,1005,975),43)
         write(im,note or 'Try saying it in the right situation.',(75,1010,1005,1170),34)
         write(im,'Simplified romanization; tones not shown.',(75,1240,1005,1300),26,'#627066')
-        path=folder/f'card-{i}.png';im.save(path);paths.append(path)
+        # JPEG is substantially more reliable than PNG for Buffer/Instagram
+        # ingestion and keeps each card comfortably below provider limits.
+        path=folder/f'card-{i}.jpg';im.save(path,format='JPEG',quality=92,optimize=True,progressive=True);paths.append(path)
     return paths
 
 def render(kind,p,folder):
