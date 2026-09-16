@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 from google.api_core.exceptions import AlreadyExists
 from google.cloud import firestore
 
-FORMATS = ('carousel', 'reel', 'single', 'carousel', 'reel', 'carousel', 'reel')
+FORMATS = ('carousel', 'single', 'carousel', 'single', 'carousel', 'single', 'carousel')
 DOMAINS = ['pewresearch.org', 'gottman.com', 'news.illinois.edu', 'extension.illinois.edu']
 RULES = '''Bondify: practical words and small actions for dating and married couples.
 Useful even without the app. No app pitch, stereotypes, diagnoses, manipulation,
