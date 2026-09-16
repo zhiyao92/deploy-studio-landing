@@ -1,10 +1,11 @@
 # Beam — approved cloud strategy
 
 Daily at 04:10 Asia/Kuala_Lumpur (03:10 Bangkok), on the existing Beam Instagram
-Buffer channel. Four days each week use an interactive five-card carousel; the
+Buffer channel. Beam is a quiet-learning account for people who prefer reading
+useful lessons without audio or a presenter. Four days each week use an interactive five-card carousel; the
 other three use a focused single-image lesson. No video or reel formats.
 
-Carousel rhythm: set up one concrete everyday challenge; let readers guess among
+Carousel rhythm: open with a curiosity, mistake, or specific real-life problem; set up one concrete everyday challenge; let readers guess among
 three meanings; reveal the answer with romanization; show a related phrase for the
 same scene; close with one short usage tip and an invitation to suggest the next
 situation. Singles carry one phrase and one contextual takeaway. Captions invite
