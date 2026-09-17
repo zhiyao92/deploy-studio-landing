@@ -57,6 +57,13 @@ publish filler merely to satisfy the percentage target.
 - Hook, two or three short explanatory paragraphs, one natural question, source, then 3–5 focused hashtags.
 - Adapt the opening and length to Instagram, Threads, and X; keep the underlying facts identical.
 - Avoid stock headings, fake urgency, unsupported superlatives, and repetitive “I built…” framing.
+- Platform adaptation: X is the primary creative target and should use one
+  standalone post with a concise hook, builder takeaway, and one discussion
+  question. Use at most 1–2 highly relevant hashtags on X (never a hashtag block).
+  Threads can use a slightly fuller explanation and 2–3 hashtags. Instagram can
+  use the visual plus a longer formatted caption and 3–5 focused hashtags. Keep
+  facts and source links identical across platforms, but never copy carousel
+  labels or force an X post into a thread.
 - Use a rotating hook bank (contrarian observation, curiosity, problem, comparison,
   mistake, result, or question) and do not repeat the same hook pattern or topic
   on consecutive posts. External stories are the starting point, not the content:
