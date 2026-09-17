@@ -166,6 +166,19 @@ def run():
             previous=ref.get().to_dict()
             if previous.get('status') in ('submitted','sent'):
                 LOG.info('Existing daily run; no duplicate submission');return 0
+            if os.environ.get('LDS_RECOVER_INSTAGRAM','').lower()=='true':
+                old=(previous.get('posts') or {}).get('instagram') or {}
+                payloads=previous.get('submissionPayloads') or {}
+                if 'instagram' not in payloads or not old.get('id'):
+                    raise RuntimeError('Instagram recovery refused: existing state is not a confirmed Instagram-only failure')
+                state=gql('query { post(input: {id: '+json.dumps(old['id'])+'}) { id status } }')['post'].get('status')
+                if state not in ('error','failed','notSent'):
+                    raise RuntimeError('Instagram recovery refused: Buffer status is '+str(state))
+                result=gql('mutation CreatePost($input: CreatePostInput!) { createPost(input:$input) { ... on PostActionSuccess { post { id status } } ... on MutationError { message } } }',{'input':payloads['instagram']})['createPost']
+                if not result.get('post'): raise RuntimeError('Buffer rejected Instagram recovery: '+str(result.get('message','no post'))[:250])
+                ref.update({'recovery':{'platform':'instagram','postId':result['post']['id'],'status':result['post'].get('status'),'completedAt':firestore.SERVER_TIMESTAMP},'status':'submitted','posts.instagram':result['post']})
+                notify('LDS Quotes Instagram recovery accepted: '+result['post']['id'])
+                return 0
             raise RuntimeError('Daily run already exists; inspect before retrying to prevent duplicates')
         policy=db.collection('contentStrategies').document('lds-quotes').get().to_dict() or {}
         if policy.get('multiformatEnabled') is not True and not dry:raise RuntimeError('Multi-format strategy has not been enabled')

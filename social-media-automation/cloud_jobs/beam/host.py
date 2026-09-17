@@ -27,7 +27,7 @@ class MediaHost:
         if size>25*1024*1024 or len(objects)>=80 or sum(o.size or 0 for o in objects)+size>LIMIT:
             raise RuntimeError('Media retention budget reached')
         name=FOLDER+f'{PREFIX}{run_id}--{index}{path.suffix}'
-        kind='video/mp4' if path.suffix.lower()=='.mp4' else 'image/png'
+        kind='video/mp4' if path.suffix.lower()=='.mp4' else 'image/jpeg'
         blob=self.bucket.blob(name);blob.cache_control='public,max-age=604800'
         blob.upload_from_filename(str(path),content_type=kind)
         url=f'https://storage.googleapis.com/{self.bucket.name}/{quote(name,safe="/")}'
