@@ -40,7 +40,7 @@ def card(value,path,index=1,total=1,dark=False):
     d.line((86,1220,994,1220),fill=accent,width=1)
     write(im,'LDS Conferences / Independent study',(86,1250,880,1295),25,fg)
     write(im,f'{index:02d}/{total:02d}' if total>1 else 'REFLECT',(900,1250,1010,1295),22,accent)
-    im.save(path)
+    im.save(path, format='JPEG', quality=92, optimize=True, progressive=True)
     return path
 
 def soundtrack(path,seconds=24,sr=22050):
@@ -85,4 +85,4 @@ def reel(source,scenes,source_meta,folder):
 
 def render(kind,data,folder,footage_path=None,footage=None):
     if kind=='reel':return [reel(footage_path,data['slides'],footage,folder)]
-    return [card(s,folder/f'card-{i}.png',i+1,len(data['slides']),dark=(kind=='single' or i==len(data['slides'])-1)) for i,s in enumerate(data['slides'])]
+    return [card(s,folder/f'card-{i}.jpg',i+1,len(data['slides']),dark=(kind=='single' or i==len(data['slides'])-1)) for i,s in enumerate(data['slides'])]

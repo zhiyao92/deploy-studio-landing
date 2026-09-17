@@ -115,7 +115,7 @@ def run():
             if kind=='reel':
                 paths = [reel(post['slides'], folder)]
             else:
-                paths = [card(t,folder/f'card-{i}.png',i+1,len(post['slides'])) for i,t in enumerate(post['slides'])]
+                paths = [card(t,folder/f'card-{i}.jpg',i+1,len(post['slides'])) for i,t in enumerate(post['slides'])]
             urls = [host.upload(p,run_id,i) for i,p in enumerate(paths)]
             ref.update({'mediaUrls':urls,'status':'ready','cleanedAssets':removed})
         if dry:

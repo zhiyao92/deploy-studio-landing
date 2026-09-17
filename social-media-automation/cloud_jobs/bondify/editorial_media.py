@@ -62,7 +62,7 @@ def card(text, path, index=1, total=1):
     brand(im, 1190)
     if total > 1:
         d.text((970, 1220), f'{index}/{total}', font=font(25), fill=PLUM, anchor='rm')
-    im.save(path)
+    im.save(path, format='JPEG', quality=92, optimize=True, progressive=True)
     return path
 
 def scene(slides, n):
