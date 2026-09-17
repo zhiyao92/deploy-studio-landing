@@ -1,6 +1,6 @@
 steps:
   - name: gcr.io/cloud-builders/docker
-    args: ['build','-f','cloud_jobs/conference/Dockerfile','-t','us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/conference-publisher:multiformat-v1','cloud_jobs/conference']
+    args: ['build','-f','Dockerfile','-t','us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/conference-publisher:multiformat-v1','.']
 images:
   - us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/conference-publisher:multiformat-v1
 timeout: 600s
