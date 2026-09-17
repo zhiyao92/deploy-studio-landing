@@ -17,6 +17,10 @@ the caption cannot be the only place that supplies context.
 - Use a single image only when one idea can be understood in seconds.
 - Do not use reels in this stream.
 - Covers use 12 words or fewer. Single-image takeaways use 8 words or fewer.
+- X is the primary creative target: 70–80% standalone posts, 20–30% short
+  explanatory threads only when context genuinely requires multiple steps. Never
+  republish carousel labels such as “Slide 1” or “Slide 2”; every post must make
+  sense on its own and end with a specific discussion question.
 
 ## Editorial mix
 
@@ -53,3 +57,7 @@ publish filler merely to satisfy the percentage target.
 - Hook, two or three short explanatory paragraphs, one natural question, source, then 3–5 focused hashtags.
 - Adapt the opening and length to Instagram, Threads, and X; keep the underlying facts identical.
 - Avoid stock headings, fake urgency, unsupported superlatives, and repetitive “I built…” framing.
+- Use a rotating hook bank (contrarian observation, curiosity, problem, comparison,
+  mistake, result, or question) and do not repeat the same hook pattern or topic
+  on consecutive posts. External stories are the starting point, not the content:
+  add an original builder lesson and invite a concrete opinion or experience.
