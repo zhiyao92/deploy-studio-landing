@@ -177,6 +177,7 @@ def test_quality_gate_rejects_post_without_shareable_utility() -> None:
     import pytest
     with pytest.raises(ValueError, match="saveable utility"):
         validate_deck({
+            "illustration": "ai",
             "lens": "product decision", "analysisType": "teardown",
             "angle": "update", "shareValue": "none",
             "slides": [{"kind": "hook", "text": "A curious hook"}],
@@ -188,6 +189,7 @@ def test_quality_gate_rejects_uncredited_app_screenshots() -> None:
     import pytest
     with pytest.raises(ValueError, match="forbids uncredited app screenshots"):
         validate_deck({
+            "illustration": "ai",
             "scope": "own", "lens": "design", "analysisType": "teardown",
             "angle": "teardown", "shareValue": "A useful test",
             "slides": [
@@ -201,6 +203,7 @@ def test_quality_gate_rejects_uncredited_app_screenshots() -> None:
 
 def test_quality_gate_allows_sourced_reference_screen() -> None:
     validate_deck({
+        "illustration": "ai",
         "scope": "own", "lens": "design", "analysisType": "teardown",
         "angle": "specific screen", "shareValue": "A useful test",
         "slides": [
@@ -220,6 +223,7 @@ def test_quality_gate_rejects_wordy_single_image() -> None:
     import pytest
     with pytest.raises(ValueError, match="headline must stay"):
         validate_deck({
+            "illustration": "ai",
             "scope": "own", "lens": "AI", "analysisType": "single",
             "angle": "one point", "shareValue": "A short test",
             "slides": [{
@@ -236,6 +240,7 @@ def test_quality_gate_rejects_code_without_real_result_images() -> None:
     import pytest
     with pytest.raises(ValueError, match="real result images"):
         validate_deck({
+            "illustration": "ai",
             "scope": "own", "lens": "SwiftUI", "analysisType": "code",
             "angle": "one API", "shareValue": "Working code and result",
             "slides": [
@@ -253,6 +258,7 @@ def test_quality_gate_rejects_swiftui_code_not_based_on_apple_docs() -> None:
     import pytest
     with pytest.raises(ValueError, match="Apple documentation"):
         validate_deck({
+            "illustration": "ai",
             "scope": "own", "lens": "SwiftUI implementation", "analysisType": "code",
             "angle": "one API", "shareValue": "Working code and result",
             "slides": [

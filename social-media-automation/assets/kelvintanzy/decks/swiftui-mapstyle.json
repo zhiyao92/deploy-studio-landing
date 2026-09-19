@@ -1,5 +1,6 @@
 {
   "handle": "@KelvinTanZY",
+  "illustration": "swiftui-mapstyle",
   "scope": "external",
   "lens": "SwiftUI implementation",
   "analysisType": "code and visual comparison",

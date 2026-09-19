@@ -22,6 +22,25 @@ the caption cannot be the only place that supplies context.
   republish carousel labels such as “Slide 1” or “Slide 2”; every post must make
   sense on its own and end with a specific discussion question.
 
+## Illustration and visual variety
+
+- Every post cover must contain an original, topic-specific editorial illustration;
+  a plain text-only cover is not publishable. Illustrations should have the warm,
+  friendly, rounded feel of the onboarding comparison Kelvin approved.
+- The illustration must explain or dramatize the idea (for example, two onboarding
+  paths, a passkey unlocking a device, an AI workflow, or a SwiftUI map result),
+  not be generic decoration. Use original vector art or clearly labeled conceptual
+  UI; do not imply a mock screen is a real product screenshot.
+- Vary composition, palette, camera/scene, and storytelling device across posts.
+  Do not reuse the same pair of text cards and arrow as the default visual. Mix
+  character scenes, annotated comparisons, UI mockups, diagrams, and object-led
+  metaphors as appropriate to the topic.
+- Keep illustrations legible at phone size, with generous whitespace and little
+  or no text inside the art. The post still needs a clear problem, insight, and
+  useful takeaway in its slides/caption.
+- Every new curated deck must declare its illustration direction and pass the
+  render/quality checks before it can enter the daily rotation.
+
 ## Editorial mix
 
 Measure the mix across a rolling 20-post window rather than forcing every week

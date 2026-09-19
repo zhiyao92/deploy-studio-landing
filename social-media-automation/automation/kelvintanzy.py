@@ -145,6 +145,12 @@ def validate_deck(deck: dict[str, object]) -> None:
         raise ValueError("KelvinTanZY deck requires an angle and explicit share value")
     if not deck.get("lens") or not deck.get("analysisType"):
         raise ValueError("KelvinTanZY deck requires a product lens and analysis type")
+    if deck.get("illustration") not in {
+        "ai", "airbnb", "beam", "bondify", "deploy-studio", "dishspin",
+        "duolingo", "instantmessage", "linear-liquid-glass", "linear-mobile",
+        "malaysia-pocket", "passkeys", "provision", "spotify", "swiftui-mapstyle",
+    }:
+        raise ValueError("KelvinTanZY deck requires a specific editorial cover illustration")
     if not isinstance(slides, list) or not slides or slides[0].get("kind") not in ("hook", "single"):
         raise ValueError("KelvinTanZY deck must begin with a hook or single-image explainer")
     if deck.get("problemSolutionRequired"):

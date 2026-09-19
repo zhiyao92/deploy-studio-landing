@@ -28,6 +28,23 @@ from PIL import Image, ImageDraw, ImageFont
 W, H = 1080, 1350
 BG, INK, MUTED, STRIKE = (245, 247, 250), (15, 17, 21), (107, 114, 128), (194, 65, 12)
 PAD = 88
+ART_DIRECTIONS = {
+    "ai": "A friendly robot head and three connected idea cards",
+    "airbnb": "A traveler choosing between distinct stay cards",
+    "beam": "A learner speaking with a friendly language partner",
+    "bondify": "Two people exchanging thoughtful chat bubbles",
+    "deploy-studio": "A builder checking a release on a phone away from a desk",
+    "dishspin": "A playful dinner choice wheel with a decisive pointer",
+    "duolingo": "A learner moving through a small streak calendar",
+    "instantmessage": "A conversation turning into a clear success signal",
+    "linear-liquid-glass": "A layered interface card with a focused action",
+    "linear-mobile": "A compact mobile task board beside a laptop workflow",
+    "malaysia-pocket": "A person following a route to a nearby help point",
+    "passkeys": "A person unlocking a shield with a device passkey",
+    "provision": "A secure identity moving safely between two devices",
+    "spotify": "A listener turning personal listening into a shareable story",
+    "swiftui-mapstyle": "A map screen with a route and two distinct map layers",
+}
 FONT = os.getenv("CAROUSEL_FONT") or next(
     path for path in (
         "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
@@ -86,17 +103,233 @@ def paste_cover(img, source, box):
     img.paste(cropped, (left, top))
 
 
-def render(slide, handle, deck_dir):
+def _person(d, x, y, scale=1.0, shirt=(255, 147, 92), skin=(246, 194, 157)):
+    """Small friendly editorial character, drawn as original vector art."""
+    r = lambda n: int(n * scale)
+    d.ellipse((x + r(27), y, x + r(93), y + r(66)), fill=skin)
+    d.pieslice((x + r(23), y - r(7), x + r(97), y + r(53)), 180, 360, fill=(48, 43, 62))
+    d.ellipse((x + r(45), y + r(28), x + r(51), y + r(34)), fill=(35, 38, 49))
+    d.ellipse((x + r(70), y + r(28), x + r(76), y + r(34)), fill=(35, 38, 49))
+    d.arc((x + r(49), y + r(37), x + r(73), y + r(54)), 5, 165, fill=(165, 78, 72), width=r(3))
+    d.rounded_rectangle((x + r(15), y + r(70), x + r(105), y + r(190)), radius=r(28), fill=shirt)
+    d.line((x + r(24), y + r(103), x - r(5), y + r(158)), fill=skin, width=r(15))
+    d.line((x + r(95), y + r(105), x + r(130), y + r(145)), fill=skin, width=r(15))
+    d.line((x + r(43), y + r(181), x + r(35), y + r(241)), fill=(47, 60, 91), width=r(17))
+    d.line((x + r(77), y + r(181), x + r(88), y + r(241)), fill=(47, 60, 91), width=r(17))
+    d.line((x + r(35), y + r(241), x + r(17), y + r(247)), fill=(42, 47, 60), width=r(12))
+    d.line((x + r(88), y + r(241), x + r(108), y + r(247)), fill=(42, 47, 60), width=r(12))
+
+
+def _phone(d, x, y, w, h, *, accent=(255, 147, 92), mode="cards"):
+    """Draw an original, rounded phone UI that can illustrate a post concept."""
+    radius = max(18, w // 12)
+    d.rounded_rectangle((x + 8, y + 10, x + w + 8, y + h + 10), radius=radius,
+                        fill=(219, 222, 227))
+    d.rounded_rectangle((x, y, x + w, y + h), radius=radius,
+                        fill=(40, 43, 55), outline=(25, 28, 38), width=3)
+    inset = max(9, w // 18)
+    d.rounded_rectangle((x + inset, y + inset, x + w - inset, y + h - inset),
+                        radius=max(12, radius - 6), fill=(255, 253, 248))
+    d.rounded_rectangle((x + w // 3, y + inset + 2, x + 2 * w // 3, y + inset + 8),
+                        radius=5, fill=(40, 43, 55))
+    left, right = x + inset + 10, x + w - inset - 10
+    top = y + inset + 24
+    if mode == "map":
+        d.rounded_rectangle((left, top, right, y + h * 3 // 4), radius=12, fill=(222, 236, 224))
+        for j in range(4):
+            yy = top + 22 + j * (h // 8)
+            d.line((left + 3, yy, right - 2, yy - 13), fill=(190, 210, 196), width=4)
+        d.line((left + 16, top + 40, left + w // 5, top + h // 2,
+                left + w * 2 // 5, top + h // 3), fill=accent, width=6)
+        d.ellipse((left + w * 2 // 5 - 8, top + h // 3 - 8,
+                   left + w * 2 // 5 + 8, top + h // 3 + 8), fill=accent)
+    else:
+        d.rounded_rectangle((left, top, right, top + h // 5), radius=10,
+                            fill=tuple(min(255, c + 90) for c in accent))
+        d.rounded_rectangle((left, top + h // 5 + 12, right, top + h // 3), radius=9,
+                            fill=(234, 236, 241))
+        d.rounded_rectangle((left, top + h // 3 + 22, right, top + h // 2), radius=9,
+                            fill=(234, 236, 241))
+        if mode == "check":
+            d.ellipse((x + w // 2 - w // 8, y + h * 2 // 3, x + w // 2 + w // 8,
+                       y + h * 2 // 3 + w // 4), fill=(208, 239, 218))
+            d.line((x + w // 2 - 9, y + h * 2 // 3 + 10, x + w // 2 - 1,
+                    y + h * 2 // 3 + 18, x + w // 2 + 15, y + h * 2 // 3 + 1),
+                   fill=(47, 139, 91), width=5)
+        elif mode == "chat":
+            d.rounded_rectangle((left, top + h * 3 // 5, x + w * 2 // 3,
+                                 top + h * 3 // 5 + 24), radius=10, fill=(222, 232, 249))
+            d.rounded_rectangle((x + w // 3, top + h * 3 // 5 + 31, right,
+                                 top + h * 3 // 5 + 55), radius=10, fill=tuple(min(255, c + 70) for c in accent))
+
+
+def draw_hero_illustration(img, direction: str, deck_key: str) -> None:
+    """Draw a topic-specific, reusable illustration on each post cover."""
+    d = ImageDraw.Draw(img)
+    left, top, right, bottom = PAD, 625, W - PAD, H - 132
+    # Warm editorial stage, with an offset sun and a soft grounding shadow.
+    palette = {
+        "security": ((230, 239, 232), (94, 162, 127)),
+        "map": ((228, 239, 229), (96, 157, 119)),
+        "conversation": ((241, 232, 246), (157, 117, 180)),
+        "ai": ((232, 234, 249), (115, 119, 194)),
+        "habit": ((250, 237, 218), (230, 157, 74)),
+        "choice": ((250, 232, 220), (235, 131, 91)),
+        "workflow": ((231, 239, 247), (93, 143, 191)),
+        "product": ((246, 235, 224), (225, 143, 96)),
+    }
+    if deck_key in ("passkeys", "provision"):
+        theme = "security"
+    elif deck_key in ("swiftui-mapstyle", "malaysia-pocket"):
+        theme = "map"
+    elif deck_key in ("beam", "bondify", "instantmessage"):
+        theme = "conversation"
+    elif deck_key == "ai":
+        theme = "ai"
+    elif deck_key == "duolingo":
+        theme = "habit"
+    elif deck_key == "dishspin":
+        theme = "choice"
+    elif deck_key in ("deploy-studio", "linear-mobile"):
+        theme = "workflow"
+    else:
+        theme = "product"
+    panel, accent = palette[theme]
+    d.rounded_rectangle((left, top, right, bottom), radius=42, fill=panel)
+    d.ellipse((right - 220, top + 25, right - 45, top + 200), fill=tuple(min(255, c + 18) for c in panel))
+    d.ellipse((left + 44, bottom - 126, right - 44, bottom - 72), fill=(216, 219, 222))
+
+    if deck_key in ("swiftui-mapstyle", "malaysia-pocket"):
+        _phone(d, 385, 675, 250, 425, accent=accent, mode="map")
+        d.ellipse((270, 745, 335, 810), fill=(249, 205, 104))
+        d.ellipse((740, 990, 806, 1056), fill=(249, 205, 104))
+        d.line((300, 780, 420, 846, 525, 756, 730, 1020), fill=accent, width=7)
+        d.ellipse((714, 1004, 746, 1036), fill=(255, 255, 255))
+    elif theme == "security":
+        _person(d, 245, 805, .95, shirt=(116, 174, 139))
+        _phone(d, 585, 710, 222, 380, accent=accent, mode="check")
+        d.polygon(((700, 710), (786, 744), (779, 839), (744, 889), (700, 916),
+                   (656, 889), (621, 839), (614, 744)), fill=(255, 255, 255), outline=accent)
+        d.line((670, 810, 695, 834, 740, 780), fill=accent, width=11)
+    elif theme == "conversation":
+        _person(d, 205, 820, .75, shirt=(124, 166, 221))
+        _person(d, 710, 820, .75, shirt=(232, 155, 112))
+        d.rounded_rectangle((340, 720, 630, 840), radius=35, fill=(255, 255, 255))
+        d.polygon(((390, 830), (420, 830), (392, 868)), fill=(255, 255, 255))
+        d.rounded_rectangle((380, 870, 665, 990), radius=35, fill=tuple(min(255, c + 55) for c in accent))
+        for x in (390, 430, 470):
+            d.ellipse((x, 765, x + 18, 783), fill=accent)
+        for x in (435, 475, 515):
+            d.ellipse((x, 915, x + 18, 933), fill=(255, 255, 255))
+        if deck_key == "bondify":
+            d.polygon(((565, 790), (548, 773), (530, 773), (518, 787), (518, 804),
+                       (565, 844), (612, 804), (612, 787), (600, 773), (582, 773)),
+                      fill=(239, 116, 128))
+        elif deck_key == "beam":
+            for i, letter_color in enumerate(((224, 161, 78), (106, 157, 201), (142, 177, 130))):
+                x = 530 + i * 38
+                d.rounded_rectangle((x, 770, x + 27, 807), radius=7, fill=letter_color)
+                d.ellipse((x + 9, 783, x + 17, 791), fill=(255, 255, 255))
+        elif deck_key == "instantmessage":
+            d.line((555, 1010, 590, 965, 625, 978, 665, 914), fill=accent, width=7)
+            for x, y in ((555, 1010), (590, 965), (625, 978), (665, 914)):
+                d.ellipse((x - 8, y - 8, x + 8, y + 8), fill=(255, 255, 255), outline=accent, width=3)
+    elif theme == "ai":
+        _person(d, 235, 820, .75, shirt=(140, 143, 212))
+        d.rounded_rectangle((470, 760, 765, 1030), radius=54, fill=(255, 255, 255), outline=accent, width=5)
+        d.rounded_rectangle((550, 840, 685, 970), radius=35, fill=(233, 234, 250))
+        d.ellipse((584, 876, 604, 896), fill=accent)
+        d.ellipse((628, 876, 648, 896), fill=accent)
+        d.arc((588, 899, 644, 944), 5, 170, fill=accent, width=7)
+        for x, y in ((435, 735), (782, 730), (740, 1060), (430, 1060)):
+            d.line((x - 18, y, x + 18, y), fill=(245, 168, 91), width=6)
+            d.line((x, y - 18, x, y + 18), fill=(245, 168, 91), width=6)
+    elif deck_key == "dishspin":
+        cx, cy, rad = 575, 895, 205
+        colors = (accent, (250, 190, 121), (250, 218, 153), (240, 164, 142))
+        for i, color in enumerate(colors):
+            d.pieslice((cx - rad, cy - rad, cx + rad, cy + rad), i * 90, (i + 1) * 90,
+                       fill=color, outline=(255, 255, 255), width=5)
+        d.ellipse((cx - 48, cy - 48, cx + 48, cy + 48), fill=(255, 255, 255))
+        d.polygon(((cx, cy - rad - 22), (cx - 27, cy - rad + 27), (cx + 27, cy - rad + 27)), fill=(49, 55, 70))
+        _person(d, 225, 835, .65, shirt=(129, 177, 142))
+    elif theme == "habit":
+        _person(d, 225, 835, .75, shirt=(239, 164, 88))
+        d.rounded_rectangle((475, 720, 800, 1050), radius=34, fill=(255, 255, 255))
+        for row in range(3):
+            for col in range(4):
+                x, y = 515 + col * 65, 770 + row * 76
+                d.rounded_rectangle((x, y, x + 44, y + 46), radius=12,
+                                    fill=accent if (row * 4 + col) < 8 else (234, 237, 241))
+        d.polygon(((360, 760), (379, 799), (422, 805), (390, 835), (399, 880),
+                   (360, 859), (321, 880), (330, 835), (298, 805), (341, 799)), fill=(245, 174, 76))
+    elif deck_key == "airbnb":
+        _person(d, 165, 830, .72, shirt=(104, 157, 190))
+        for x, y, color in ((395, 760, (238, 185, 133)), (580, 820, (155, 187, 160)),
+                            (730, 730, (192, 169, 206))):
+            d.rounded_rectangle((x, y, x + 185, y + 235), radius=24, fill=(255, 255, 255))
+            d.rounded_rectangle((x + 16, y + 16, x + 169, y + 118), radius=18, fill=color)
+            d.polygon(((x + 51, y + 96), (x + 91, y + 55), (x + 137, y + 96)), fill=(255, 255, 255))
+            d.rectangle((x + 65, y + 91, x + 122, y + 118), fill=(255, 255, 255))
+            d.line((x + 26, y + 153, x + 157, y + 153), fill=(221, 224, 229), width=7)
+            d.line((x + 26, y + 178, x + 116, y + 178), fill=(233, 235, 239), width=7)
+    elif deck_key == "spotify":
+        _person(d, 180, 835, .72, shirt=(153, 136, 202))
+        d.ellipse((480, 745, 750, 1015), fill=(44, 46, 60))
+        d.ellipse((566, 831, 664, 929), fill=panel)
+        for i, width in enumerate((155, 180, 130)):
+            d.arc((520, 785 + i * 28, 720, 935 + i * 28), 210, 320,
+                  fill=(249, 191, 87), width=12)
+        d.rounded_rectangle((700, 715, 815, 850), radius=20, fill=(255, 255, 255))
+        for i, height in enumerate((38, 70, 52, 93)):
+            x = 720 + i * 21
+            d.rounded_rectangle((x, 823 - height, x + 12, 823), radius=5, fill=accent)
+    elif deck_key == "linear-liquid-glass":
+        _person(d, 170, 840, .7, shirt=(163, 135, 193))
+        d.rounded_rectangle((435, 720, 805, 1030), radius=34, fill=(255, 255, 255))
+        d.rounded_rectangle((470, 760, 770, 842), radius=24, fill=(231, 237, 246))
+        d.rounded_rectangle((495, 820, 790, 905), radius=24, fill=(244, 229, 214))
+        d.rounded_rectangle((455, 888, 750, 975), radius=24, fill=(221, 237, 226))
+        d.ellipse((737, 941, 783, 987), fill=accent)
+        d.line((750, 964, 765, 978), fill=(255, 255, 255), width=5)
+        d.line((765, 978, 777, 954), fill=(255, 255, 255), width=5)
+    else:
+        # Product/workflow scenes use two tiny interfaces and a clear transformation cue.
+        _phone(d, 265, 710, 220, 390, accent=accent, mode="cards")
+        _phone(d, 590, 710, 220, 390, accent=accent, mode="check")
+        d.line((493, 895, 562, 895), fill=accent, width=9)
+        d.polygon(((565, 895), (539, 877), (539, 913)), fill=accent)
+        _person(d, 92, 850, .52, shirt=(234, 162, 118))
+
+    # A small floating spark softens the systems diagram into a friendly editorial scene.
+    d.ellipse((right - 142, top + 72, right - 103, top + 111), fill=(255, 207, 115))
+
+
+def render(slide, handle, deck_dir, deck_key=""):
     img = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(img)
     maxw = W - PAD * 2
     kind = slide["kind"]
 
     if kind == "hook":
-        font = f(86)
+        default_labels = {
+            "ai": "AI, IN PRACTICE", "airbnb": "PRODUCT BREAKDOWN",
+            "beam": "LANGUAGE LEARNING", "bondify": "RELATIONSHIP DESIGN",
+            "deploy-studio": "BUILDER FIELD NOTE", "dishspin": "PRODUCT FOCUS",
+            "duolingo": "GROWTH MECHANIC", "instantmessage": "PRODUCT METRICS",
+            "linear-liquid-glass": "INTERFACE DESIGN", "linear-mobile": "TECH CHOICE",
+            "malaysia-pocket": "HIGH-STRESS UX", "passkeys": "SECURITY, EXPLAINED",
+            "provision": "IDENTITY SYSTEMS", "spotify": "SHARING BEHAVIOR",
+            "swiftui-mapstyle": "SWIFTUI FIELD NOTE",
+        }
+        eyebrow = slide.get("eyebrow", default_labels.get(deck_key, "BUILDER FIELD NOTE"))
+        d.rounded_rectangle((PAD, 102, PAD + 370, 154), radius=24, fill=(255, 232, 218))
+        d.text((PAD + 18, 111), eyebrow.upper(), font=f(23), fill=STRIKE)
+        font = f(67)
         lines = wrap(d, slide["text"], font, maxw)
-        y = (H - len(lines) * 100) // 2 - 60
-        draw_block(d, slide["text"], font, y, INK, 100, maxw)
+        draw_block(d, slide["text"], font, 195, INK, 78, maxw)
+        draw_hero_illustration(img, ART_DIRECTIONS.get(deck_key, "A curious builder exploring an idea"), deck_key)
+        d = ImageDraw.Draw(img)
 
     elif kind == "single":
         d.text((PAD, 98), slide.get("eyebrow", "TECH, EXPLAINED"), font=f(27), fill=STRIKE)
@@ -291,7 +524,8 @@ def render_deck(deck_path: Path, out: Path, deck_override: dict | None = None) -
     rendered = []
     for i, slide in enumerate(deck["slides"], 1):
         p = out / f"slide-{i:02d}.png"
-        render(slide, deck.get("handle", "@KelvinTanZY"), deck_path.parent).save(p)
+        render(slide, deck.get("handle", "@KelvinTanZY"), deck_path.parent,
+               str(deck.get("illustration", deck_path.stem))).save(p)
         rendered.append(p)
     return rendered
 
