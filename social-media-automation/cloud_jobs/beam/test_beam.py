@@ -127,4 +127,54 @@ class Tests(unittest.TestCase):
             self.assertEqual(publisher.run(),0)
             generate.assert_not_called()
 
+    def test_recovery_reviews_exact_saved_draft_once_before_publish(self):
+        import publisher
+        corrected={**EXAMPLE,'a':{'thai':'มานั่งด้วยกันไหม','roman':'ma nang duay gan mai',
+                                  'meaning':'Would you like to sit together?'}}
+        source={'status':'needs_attention','dryRun':False,'format':'carousel',
+                'languageReview':{'approved':False,'issues':['Original phrase was unnatural.']},
+                'reviewedDraft':corrected}
+        db=MagicMock()
+        runs=MagicMock();runs.document.return_value.get.return_value.to_dict.return_value=source
+        runs.order_by.return_value.limit.return_value.stream.return_value=[]
+        stream=MagicMock();stream.document.return_value.get.return_value.to_dict.return_value={'enabled':True,'autoPublish':True}
+        db.collection.side_effect=lambda name: stream if name=='streams' else runs
+        buffer=MagicMock();buffer.channel_id='beam-instagram'
+        buffer.get_channels.return_value=[{'id':'beam-instagram','service':'instagram'}]
+        buffer.publish.return_value={'id':'buffer-recovery-id','status':'sending'}
+        host=MagicMock();host.cleanup.return_value=0;host.upload.side_effect=['https://example.com/1.png']*5
+        client=SimpleNamespace(messages=SimpleNamespace(create=MagicMock(
+            return_value=self.review_response({'approved':True,'issues':[]}))))
+        with patch.dict('os.environ',{'ANTHROPIC_API_KEY':'test-key'}), \
+             patch('anthropic.Anthropic',return_value=client), \
+             patch.object(publisher,'MediaHost',return_value=host), \
+             patch.object(publisher,'render',return_value=[Path(f'{i}.png') for i in range(5)]), \
+             patch.object(publisher,'notify'), \
+             patch.object(publisher,'reconcile'):
+            result=publisher.recover_failed_run(db,buffer,{'animatedPublisherEnabled':True},'2026-09-20')
+        self.assertEqual(result,0)
+        self.assertEqual(client.messages.create.call_count,1)
+        buffer.publish.assert_called_once()
+        self.assertEqual(buffer.publish.call_args.kwargs['image_urls'],['https://example.com/1.png']*5)
+
+    def test_recovery_rejects_second_review_without_publishing(self):
+        import publisher
+        corrected={**EXAMPLE,'a':{'thai':'มานั่งด้วยกันไหม','roman':'ma nang duay gan mai',
+                                  'meaning':'Would you like to sit together?'}}
+        source={'status':'needs_attention','dryRun':False,'format':'carousel',
+                'languageReview':{'approved':False,'issues':['Original phrase was unnatural.']},
+                'reviewedDraft':corrected}
+        db=MagicMock()
+        runs=MagicMock();runs.document.return_value.get.return_value.to_dict.return_value=source
+        stream=MagicMock();stream.document.return_value.get.return_value.to_dict.return_value={'enabled':True,'autoPublish':True}
+        db.collection.side_effect=lambda name: stream if name=='streams' else runs
+        buffer=MagicMock();buffer.channel_id='beam-instagram'
+        client=SimpleNamespace(messages=SimpleNamespace(create=MagicMock(
+            return_value=self.review_response({'approved':False,'issues':['Still uncertain.']}))))
+        with patch.dict('os.environ',{'ANTHROPIC_API_KEY':'test-key'}), \
+             patch('anthropic.Anthropic',return_value=client), patch.object(publisher,'notify'):
+            result=publisher.recover_failed_run(db,buffer,{'animatedPublisherEnabled':True},'2026-09-20')
+        self.assertEqual(result,1)
+        buffer.publish.assert_not_called()
+
 if __name__=='__main__':unittest.main()

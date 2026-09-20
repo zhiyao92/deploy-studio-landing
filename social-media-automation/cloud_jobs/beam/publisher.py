@@ -2,6 +2,7 @@
 import json
 import logging
 import os
+import re
 import tempfile
 import uuid
 from datetime import datetime, timedelta, timezone
@@ -11,11 +12,105 @@ import requests
 from google.api_core.exceptions import AlreadyExists
 from google.cloud import firestore
 from buffer_handler import BufferHandler
-from content import KINDS, kind_for, generate, caption, validate, normalize
+from content import KINDS, kind_for, generate, caption, validate, validate_review_correction, normalize, final_review, decode
 from media import render
 from host import MediaHost
 
 PROJECT = 'social-media-automation-5c9db'
+
+def recover_failed_run(db, buffer, policy, source_id):
+    """Publish one explicitly selected, previously rejected draft after fresh review."""
+    if not re.fullmatch(r'\d{4}-\d{2}-\d{2}',source_id):
+        raise ValueError('Recovery requires an exact ISO date run ID')
+    if not policy.get('animatedPublisherEnabled'):
+        raise RuntimeError('Animated publisher has not been activated')
+    stream=db.collection('streams').document('beam-learn-thai').get().to_dict() or {}
+    if not stream.get('enabled') or not stream.get('autoPublish'):
+        raise RuntimeError('Beam stream is paused; recovery was not published')
+
+    source_ref=db.collection('beamPublishingRuns').document(source_id)
+    source=source_ref.get().to_dict() or {}
+    issues=(source.get('languageReview') or {}).get('issues')
+    candidate=source.get('reviewedDraft')
+    if (source.get('status')!='needs_attention' or source.get('dryRun') is not False
+            or source.get('format') not in KINDS or source.get('postId')
+            or source.get('content') or (source.get('languageReview') or {}).get('approved') is not False
+            or not isinstance(issues,list) or not issues or not isinstance(candidate,dict)):
+        raise RuntimeError('Source run is not an eligible unposted language-review failure')
+
+    recovery_id=source_id+'-recovery'
+    recovery_ref=db.collection('beamPublishingRuns').document(recovery_id)
+    try:
+        recovery_ref.create({'status':'reviewing','dryRun':False,'format':source['format'],
+            'sourceRunId':source_id,'image':os.environ.get('PUBLISHER_IMAGE','local'),
+            'createdAt':firestore.SERVER_TIMESTAMP})
+    except AlreadyExists:
+        print('Recovery already claimed; no duplicate review or post')
+        return 0
+
+    try:
+        candidate=validate_review_correction(normalize(candidate))
+        client=__import__('anthropic').Anthropic(api_key=os.environ['ANTHROPIC_API_KEY'],
+            max_retries=0,timeout=100)
+        model=os.environ.get('ANTHROPIC_REVIEW_MODEL','claude-sonnet-4-6')
+        response=final_review(client,model,source['format'],candidate,issues)
+        verdict=decode(response)
+        approved=(set(verdict)=={'approved','issues'} and verdict.get('approved') is True
+                  and verdict.get('issues')==[])
+        recovery_ref.update({'languageReview':{'approved':approved,'issues':verdict.get('issues')},
+            'reviewedAt':firestore.SERVER_TIMESTAMP,
+            'reviewUsage':response.usage.model_dump(exclude_none=True)})
+        if not approved:
+            recovery_ref.update({'status':'needs_attention'})
+            notify('ERROR: Beam recovery '+recovery_id+' was stopped by the final language review. No post created.')
+            return 1
+
+        recent=[]
+        for snap in db.collection('beamPublishingRuns').order_by(
+                'createdAt',direction=firestore.Query.DESCENDING).limit(30).stream():
+            data=snap.to_dict()
+            if not data.get('dryRun') and data.get('content'):
+                recent.append(data['content'].get('a',{}).get('thai'))
+        if candidate['a']['thai'] in recent:
+            raise ValueError('Corrected phrase appeared in recent Beam lessons')
+        text=caption(candidate)
+        if len(text)>2200:
+            raise ValueError('Caption exceeds Instagram limit')
+
+        channels=buffer.get_channels()
+        channel=next((c for c in channels if c.get('id')==buffer.channel_id),None)
+        if (not channel or channel.get('service','').lower()!='instagram'
+                or channel.get('isDisconnected') or channel.get('isLocked')):
+            raise RuntimeError('Configured Instagram channel is unavailable')
+
+        host=MediaHost()
+        removed=host.cleanup(db)
+        with tempfile.TemporaryDirectory(prefix='beam-editorial-recovery-') as temp:
+            paths=render(source['format'],candidate,Path(temp))
+            urls=[host.upload(p,recovery_id,i) for i,p in enumerate(paths)]
+        recovery_ref.update({'content':candidate,'caption':text,'mediaUrls':urls,
+            'status':'ready','cleanedAssets':removed})
+        # Persist before Buffer mutation: an uncertain response remains non-retryable.
+        recovery_ref.update({'status':'sending','sending':True})
+        kwargs={'image_urls':urls} if source['format']=='carousel' else {'image_url':urls[0]}
+        result=buffer.publish(caption=text,**kwargs)
+        recovery_ref.update({'status':'submitted','postId':result['id'],
+            'bufferStatus':result.get('status')})
+        source_ref.update({'recoveryRunId':recovery_id,'recoveryStatus':'submitted'})
+        notify('Accepted by Buffer: Beam recovery '+recovery_id+' (Instagram '+source['format']+'). Delivery confirmation is separate. Post ID: '+result['id'])
+        reconcile(db,buffer)
+        return 0
+    except Exception as exc:
+        error=type(exc).__name__
+        current=recovery_ref.get().to_dict() or {}
+        if current.get('status') not in ('submitted','sent'):
+            recovery_ref.update({'status':'needs_attention','errorType':error})
+        try:
+            notify('ERROR: Beam recovery '+recovery_id+' failed ('+error+'). No blind retry or repost.')
+        except Exception:
+            print('Slack notification also failed; inspect recovery execution')
+        print('Beam recovery failed:',error)
+        return 1
 
 def notify(text):
     try:
@@ -56,6 +151,9 @@ def run():
         if not buffer.channel_id:
             raise RuntimeError('Explicit Buffer channel required; no auto-discovery')
         policy = db.collection('contentStrategies').document('beam').get().to_dict() or {}
+        recovery_source=os.environ.get('BEAM_RECOVER_RUN_ID')
+        if recovery_source:
+            return recover_failed_run(db,buffer,policy,recovery_source)
         if os.environ.get('BEAM_RECONCILE_ONLY')=='true':
             reconcile(db, buffer)
             current = db.collection('beamPublishingRuns').document(day.isoformat()).get().to_dict() or {}
