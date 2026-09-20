@@ -7,6 +7,8 @@ from datetime import date
 import anthropic
 
 KINDS=('single','carousel')
+LESSON_FIELDS={'title','context','a','b','note','distractors','paragraphs','hashtags'}
+PHRASE_FIELDS={'thai','roman','meaning'}
 RULES='''Beam teaches practical Thai to English-speaking beginners. Be respectful,
 specific and useful without app promotion. No stereotypes or claims about all Thai
 people. No pronunciation audio. Romanization is simplified ASCII with tones omitted;
@@ -48,6 +50,20 @@ def validate(p):
     if any(not re.fullmatch(r'#[A-Za-z0-9]+',t) for t in tags):raise ValueError('Invalid hashtag')
     return p
 
+def validate_review_correction(p):
+    """Require a complete, locally valid lesson before a second review call."""
+    if not isinstance(p,dict) or set(p)!=LESSON_FIELDS:
+        raise ValueError('Reviewer correction has an invalid lesson schema')
+    for key in ('a','b'):
+        if not isinstance(p.get(key),dict) or set(p[key])!=PHRASE_FIELDS:
+            raise ValueError('Reviewer correction has an invalid phrase schema')
+    for key in ('distractors','paragraphs','hashtags'):
+        if not isinstance(p.get(key),list):
+            raise ValueError('Reviewer correction has an invalid list field')
+        if any(not isinstance(value,str) for value in p[key]):
+            raise ValueError('Reviewer correction has a non-text list item')
+    return validate(p)
+
 def obj(fields):return {'type':'object','properties':fields,'required':list(fields),'additionalProperties':False}
 def schema():
     def short(n,description):
@@ -79,6 +95,22 @@ def normalize(p):
     if isinstance(p,list):return [normalize(v) for v in p]
     if isinstance(p,dict):return {k:normalize(v) for k,v in p.items()}
     return p
+
+def final_review(client,model,kind,candidate,issues):
+    """Re-review one corrected draft; this is a single bounded request."""
+    prompt=(RULES+'''
+A previous review rejected the original lesson and proposed the corrected lesson
+below. Perform one final review of this correction from scratch; do not assume it is
+accurate just because another review produced it. Check Thai spelling and natural
+usage, exact meaning, romanization mapping, context, polite endings, note, caption
+consistency, field limits and all Beam rules. This is not native certification. If
+anything is uncertain, reject it. Do not edit the lesson. Return JSON only with
+exactly these keys: approved (boolean) and issues (array). Approve only if there are
+no remaining issues; otherwise list concise unresolved issues.
+Original review issues: '''+json.dumps(issues,ensure_ascii=False)+
+        '\nCorrected lesson: '+json.dumps(candidate,ensure_ascii=False))
+    return client.messages.create(model=model,max_tokens=1000,system=RULES,
+        messages=[{'role':'user','content':prompt}])
 
 def generate(kind,day,recent,record):
     client=anthropic.Anthropic(api_key=os.environ['ANTHROPIC_API_KEY'],max_retries=0,timeout=100)
@@ -137,9 +169,46 @@ Format: '''+kind+'\nDraft: '+json.dumps(lesson,ensure_ascii=False)}])
         raise
     usage['models']={'generation':model,'review':review_model}
     record.update({'languageReview':{'approved':verdict.get('approved'),'issues':verdict.get('issues')},'reviewedDraft':verdict.get('lesson'),'usage':usage})
-    if verdict.get('approved') is not True or verdict.get('issues')!=[]:raise ValueError('Written-language review rejected lesson')
-    lesson=validate(normalize(verdict.get('lesson',{})))
+    reviewed_lesson=verdict.get('lesson')
+    correction_used=False
+    if verdict.get('approved') is not True or verdict.get('issues')!=[]:
+        issues=verdict.get('issues')
+        if not isinstance(issues,list) or not issues or not isinstance(reviewed_lesson,dict):
+            raise ValueError('Written-language review rejected lesson without a usable correction')
+        candidate=normalize(reviewed_lesson)
+        try:
+            validate_review_correction(candidate)
+        except ValueError:
+            record.update({'reviewCorrectionStatus':'rejected_local_validation'})
+            raise ValueError('Reviewer correction failed local validation') from None
+        record.update({'reviewCorrectionStatus':'pending_second_review','reviewCorrectionUsed':True,
+                       'reviewCorrectionDraft':candidate})
+        correction_review=final_review(client,review_model,kind,candidate,issues)
+        usage['correctionReview']=correction_review.usage.model_dump(exclude_none=True)
+        try:
+            correction_verdict=decode(correction_review)
+        except (ValueError,json.JSONDecodeError):
+            record.update({'reviewCorrectionStatus':'rejected_invalid_second_review','usage':usage})
+            raise ValueError('Corrected lesson second review returned invalid JSON') from None
+        approved=correction_verdict.get('approved') is True and correction_verdict.get('issues')==[]
+        record.update({
+            'reviewCorrectionStatus':'approved' if approved else 'rejected_second_review',
+            'reviewCorrectionIssues':correction_verdict.get('issues'),
+            'reviewCorrectionStopReason':correction_review.stop_reason,
+            'languageReview':{'approved':approved,'issues':correction_verdict.get('issues')},
+            'reviewedDraft':candidate,
+            'usage':usage,
+        })
+        if not approved:
+            raise ValueError('Corrected lesson failed its second language review')
+        reviewed_lesson=candidate
+        correction_used=True
+    lesson=validate_review_correction(normalize(reviewed_lesson or {}))
     if lesson['a']['thai'] in [r.get('thai') for r in recent]:raise ValueError('Primary phrase was used recently')
+    if correction_used:
+        record.update({'content':lesson,'reviewCorrectionStatus':'approved'})
+    else:
+        record.update({'reviewCorrectionUsed':False})
     return lesson
 
 def caption(p):

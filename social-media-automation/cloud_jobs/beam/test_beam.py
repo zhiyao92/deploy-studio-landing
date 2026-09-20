@@ -1,6 +1,8 @@
 import unittest
+import json
+import os
 from datetime import date, timedelta
-from content import kind_for, validate, normalize, decode, caption
+from content import kind_for, validate, normalize, decode, caption, generate
 from media import base, write, cards
 from tempfile import TemporaryDirectory
 from pathlib import Path
@@ -16,6 +18,54 @@ EXAMPLE={'title':'A warmer thank-you','context':'Someone helped you.',
  'hashtags':['#BeamLearnThai','#LearnThai','#ThaiLanguage','#ThailandTravel','#EverydayThai']}
 
 class Tests(unittest.TestCase):
+    def review_response(self, payload):
+        return SimpleNamespace(
+            content=[SimpleNamespace(type='text',text=json.dumps(payload,ensure_ascii=False))],
+            usage=SimpleNamespace(model_dump=lambda **_: {'input_tokens':10,'output_tokens':5}),
+            stop_reason='end_turn',
+        )
+
+    def test_rejected_draft_gets_one_bounded_correction_review(self):
+        corrected={**EXAMPLE,'a':{'thai':'มานั่งด้วยกันไหม','roman':'ma nang duay gan mai',
+                                  'meaning':'Would you like to sit together?'}}
+        invalid={**EXAMPLE,'a':{'thai':'มากั่งแกว่งกับฉันไหม','roman':'ma gung gaeng gab chan',
+                                'meaning':'Will you sit and hang out with me?'}}
+        responses=[
+            self.review_response(invalid),
+            self.review_response({'approved':False,'issues':['The Thai phrase is not natural.'],
+                                  'lesson':corrected}),
+            self.review_response({'approved':True,'issues':[]}),
+        ]
+        client=SimpleNamespace(messages=SimpleNamespace(create=MagicMock(side_effect=responses)))
+        record=MagicMock()
+        with patch.dict(os.environ,{'ANTHROPIC_API_KEY':'test-key'}), \
+             patch('content.anthropic.Anthropic',return_value=client):
+            result=generate('single',date(2026,9,20),[],record)
+        self.assertEqual(result,corrected)
+        self.assertEqual(client.messages.create.call_count,3)  # generate, review, one final review
+        updates=[call.args[0] for call in record.update.call_args_list]
+        self.assertTrue(any(update.get('reviewCorrectionStatus')=='approved' for update in updates))
+        self.assertTrue(any(update.get('reviewCorrectionUsed') is True for update in updates))
+
+    def test_corrected_draft_still_fails_closed_if_second_review_rejects(self):
+        corrected={**EXAMPLE,'a':{'thai':'มานั่งด้วยกันไหม','roman':'ma nang duay gan mai',
+                                  'meaning':'Would you like to sit together?'}}
+        responses=[
+            self.review_response(EXAMPLE),
+            self.review_response({'approved':False,'issues':['Use a more natural phrase.'],
+                                  'lesson':corrected}),
+            self.review_response({'approved':False,'issues':['The phrase remains uncertain.']}),
+        ]
+        client=SimpleNamespace(messages=SimpleNamespace(create=MagicMock(side_effect=responses)))
+        record=MagicMock()
+        with patch.dict(os.environ,{'ANTHROPIC_API_KEY':'test-key'}), \
+             patch('content.anthropic.Anthropic',return_value=client):
+            with self.assertRaisesRegex(ValueError,'failed its second language review'):
+                generate('single',date(2026,9,20),[],record)
+        self.assertEqual(client.messages.create.call_count,3)
+        updates=[call.args[0] for call in record.update.call_args_list]
+        self.assertTrue(any(update.get('reviewCorrectionStatus')=='rejected_second_review' for update in updates))
+
     def test_mix_and_rotation(self):
         kinds=[kind_for(date(2026,9,7)+timedelta(days=i)) for i in range(21)]
         self.assertEqual(kinds.count('carousel'),12)
